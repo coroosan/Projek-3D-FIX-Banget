@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44300607, g: 0.49219656, b: 0.5719238, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -422,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f6df9d71cbdb39d4e82befe2d2ceb918, type: 3}
       propertyPath: m_Name
-      value: Pot Tanaman (5)
+      value: Pot Tanaman (32)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1263,7 +1263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d77fd365105f98f4ca742a306fe67ef0, type: 3}
       propertyPath: m_Name
-      value: TIcket Gate (2)
+      value: TIcket Gate (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1308,8 +1308,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 435114241}
-  - component: {fileID: 435114240}
+  - component: {fileID: 986699024}
+  - component: {fileID: 986699023}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1317,25 +1317,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!108 &435114240
+--- !u!108 &986699023
 Light:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435114239}
+  m_GameObject: {fileID: 986699022}
   m_Enabled: 1
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1379,16 +1379,16 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!4 &435114241
+--- !u!4 &986699024
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435114239}
+  m_GameObject: {fileID: 986699022}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.42304114, y: -0.27223906, z: 0.40042388, w: 0.76588696}
+  m_LocalPosition: {x: -106.8, y: 19.6, z: -70.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5703,7 +5703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 78f586464b53cd24c80a826d2868fe52, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.29
+      value: -2.14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 78f586464b53cd24c80a826d2868fe52, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5835,7 +5835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 78f586464b53cd24c80a826d2868fe52, type: 3}
       propertyPath: m_Name
-      value: Bangku Tunggu
+      value: Bangku Tunggu (6)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6056,14 +6056,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 78f586464b53cd24c80a826d2868fe52, type: 3}
       propertyPath: m_Name
-      value: Bangku Tunggu (11)
+      value: Bangku Tunggu (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78f586464b53cd24c80a826d2868fe52, type: 3}
---- !u!1001 &1833781343
+--- !u!1001 &1267976475
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -6125,7 +6125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 78f586464b53cd24c80a826d2868fe52, type: 3}
       propertyPath: m_Name
-      value: Bangku Tunggu (2)
+      value: Bangku Tunggu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
