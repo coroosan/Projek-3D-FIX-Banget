@@ -335,6 +335,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Mc '
       objectReference: {fileID: 0}
+    - target: {fileID: 3024214333990237674, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
+      propertyPath: runSpeed
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3024214333990237674, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
+      propertyPath: jumpPower
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3024214333990237674, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
+      propertyPath: walkSpeed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3882683062973861969, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
