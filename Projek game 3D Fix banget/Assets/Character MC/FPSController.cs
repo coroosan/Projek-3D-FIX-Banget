@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // Tambahkan untuk menggunakan UI
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
-public class FPSController : MonoBehaviour
+public class FPSPlayerController : MonoBehaviour
 {
     public Camera playerCamera;
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
-    public float jumpPower = 7f;
-    public float gravity = 10f;
+    public float jumpHeight = 2f; // Tinggi lompatan
+    public float gravity = 9.8f;
 
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
@@ -21,6 +21,8 @@ public class FPSController : MonoBehaviour
     float rotationX = 0;
 
     public bool canMove = true;
+    private float verticalVelocity = 0f;
+    private bool isJumping = false;
 
     CharacterController characterController;
 
@@ -50,29 +52,36 @@ public class FPSController : MonoBehaviour
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
 
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+
+        // Tambahkan gravitasi manual
+        if (characterController.isGrounded)
+        {
+            verticalVelocity = -gravity * Time.deltaTime;
+
+            if (Input.GetButtonDown("Jump") && canMove)
+            {
+                isJumping = true;
+                verticalVelocity = Mathf.Sqrt(jumpHeight * 2f * gravity);
+            }
+        }
+        else
+        {
+            verticalVelocity -= gravity * Time.deltaTime; // Terapkan gravitasi saat tidak di tanah
+        }
+
+        moveDirection.y = verticalVelocity;
+        characterController.Move(moveDirection * Time.deltaTime);
     }
 
     void HandleJumping()
     {
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
-            moveDirection.y = jumpPower;
-        }
-        else
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-        }
-
-        characterController.Move(moveDirection * Time.deltaTime);
+        // Tidak ada perubahan di sini karena lompat sudah dikelola di HandleMovement()
     }
 
     void HandleRotation()
     {
-        characterController.Move(moveDirection * Time.deltaTime);
-
         if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;

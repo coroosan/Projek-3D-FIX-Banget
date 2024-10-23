@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public float speed = 20f;
-    public float lifespan = 5f;
-    private int damage = 10;
+    public float speed = 20f; // Kecepatan peluru, di-set oleh SpawnBullet
+    public float lifespan = 5f; // Waktu hidup peluru
+    private int damage = 10; // Damage default, akan di-set oleh SpawnBullet
 
-    public GameObject hitEffect; // Prefab efek saat peluru mengenai target
+    public GameObject hitEffect; // Efek saat peluru mengenai target
 
     void Start()
     {
@@ -22,6 +22,7 @@ public class BulletController : MonoBehaviour
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
+    // Metode untuk mengatur damage peluru dari SpawnBullet
     public void SetDamage(int damageAmount)
     {
         damage = damageAmount;
@@ -29,11 +30,11 @@ public class BulletController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Periksa jika peluru mengenai target dengan komponen EnemyHealth
+        // Jika peluru mengenai musuh dengan komponen EnemyHealth
         EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
         if (enemyHealth != null)
         {
-            // Aplikasikan damage ke musuh
+            // Berikan damage ke musuh
             enemyHealth.TakeDamage(damage);
 
             // Buat efek saat peluru mengenai target
@@ -42,7 +43,7 @@ public class BulletController : MonoBehaviour
                 Instantiate(hitEffect, transform.position, Quaternion.identity);
             }
 
-            // Hancurkan peluru setelah terkena target
+            // Hancurkan peluru setelah mengenai target
             Destroy(gameObject);
         }
     }
