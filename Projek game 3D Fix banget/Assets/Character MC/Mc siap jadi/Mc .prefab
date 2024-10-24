@@ -1042,8 +1042,8 @@ MonoBehaviour:
   playerCamera: {fileID: 7824280427410119115}
   walkSpeed: 12
   runSpeed: 18
-  jumpHeight: 2
-  gravity: 10
+  jumpHeight: 3
+  gravity: 22
   lookSpeed: 2
   lookXLimit: 45
   crosshair: {fileID: 3738140408166203172}
