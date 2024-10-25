@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyControll : MonoBehaviour
 {
@@ -10,12 +11,13 @@ public class EnemyControll : MonoBehaviour
     public Transform[] patrolPoints;
     public float patrolSpeed = 3.5f;
     public float chaseSpeed = 5f;
-    public float attackDistance = 2f;
+    public float attackDistance = 4f;
     public float detectionRadius = 10f;
     public float shootReactionRadius = 15f;
     public float attackCooldown = 2f;
+    public float flyingHeight = 10f; // Tinggi terbang musuh
 
-    private UnityEngine.AI.NavMeshAgent agent;
+    private NavMeshAgent agent;
     private Transform player;
     private int currentPatrolIndex;
     private float lastAttackTime;
@@ -29,7 +31,7 @@ public class EnemyControll : MonoBehaviour
 
     void Start()
     {
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentState = EnemyState.Patrol;
         agent.speed = patrolSpeed;
@@ -39,6 +41,10 @@ public class EnemyControll : MonoBehaviour
 
     void Update()
     {
+        // Perbarui posisi terbang musuh dengan ketinggian tetap
+        Vector3 flyingPosition = new Vector3(transform.position.x, flyingHeight, transform.position.z);
+        transform.position = flyingPosition;
+
         switch (currentState)
         {
             case EnemyState.Patrol:
@@ -63,7 +69,7 @@ public class EnemyControll : MonoBehaviour
 
     void Patrol()
     {
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        if (!agent.pathPending && agent.remainingDistance < 3f)
         {
             GoToNextPatrolPoint();
         }
