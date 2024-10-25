@@ -1,34 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField]
-    private float bulletLifetime = 5f;  // Waktu hidup peluru sebelum dihancurkan
-    private float bulletDamage;
+    public float speed = 20f; // Kecepatan peluru, di-set oleh SpawnBullet
+    public float lifespan = 5f; // Waktu hidup peluru
+    private int damage = 10; // Damage default, akan di-set oleh SpawnBullet
 
-    private void Start()
+    public GameObject hitEffect; // Efek saat peluru mengenai target
+
+    void Start()
     {
-        // Menghancurkan peluru setelah beberapa detik
-        Destroy(gameObject, bulletLifetime);
+        // Hancurkan peluru setelah waktu tertentu
+        Destroy(gameObject, lifespan);
     }
 
-    // Set damage yang akan diberikan peluru
-    public void SetDamage(float damage)
+    void Update()
     {
-        bulletDamage = damage;
+        // Gerakkan peluru ke depan
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    // Metode untuk mengatur damage peluru dari SpawnBullet
+    public void SetDamage(int damageAmount)
     {
-        // Mengecek apakah objek yang tertembak memiliki komponen "Health"
-        Health targetHealth = collision.gameObject.GetComponent<Health>();
-        if (targetHealth != null)
+        damage = damageAmount;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Jika peluru mengenai musuh dengan komponen EnemyHealth
+        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
         {
-            // Memberikan damage ke target
-            targetHealth.TakeDamage(bulletDamage);
-        }
+            // Berikan damage ke musuh
+            enemyHealth.TakeDamage(damage);
 
-        // Hancurkan peluru setelah bertabrakan
-        Destroy(gameObject);
+            // Buat efek saat peluru mengenai target
+            if (hitEffect != null)
+            {
+                Instantiate(hitEffect, transform.position, Quaternion.identity);
+            }
+
+            // Hancurkan peluru setelah mengenai target
+            Destroy(gameObject);
+        }
     }
 }
