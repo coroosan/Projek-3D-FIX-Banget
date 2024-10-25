@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 159348619}
   - component: {fileID: 159348618}
   - component: {fileID: 159348617}
+  - component: {fileID: 159348621}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -224,7 +225,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 430.62943, y: -4.9668107, z: 406.93}
-  m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
+  m_LocalScale: {x: 9.2727, y: 9.2727, z: 9.2727}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -335,6 +336,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Mc '
       objectReference: {fileID: 0}
+    - target: {fileID: 1045536121981508581, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 3882683062973861969, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -387,3 +392,12 @@ SceneRoots:
   - {fileID: 1424144861}
   - {fileID: 159348620}
   - {fileID: 4600011880686000835}
+  - {fileID: 573165244}
+  - {fileID: 1340116101}
+  - {fileID: 1256141186}
+  - {fileID: 409500595}
+  - {fileID: 2135908011}
+  - {fileID: 368466075}
+  - {fileID: 921278676}
+  - {fileID: 1817014027}
+  - {fileID: 827458381}
