@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ProjectObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <HFDS>
+    <FinalBiasText>0.0</FinalBiasText>
+    <FinalGainText>0.0</FinalGainText>
+    <SampleColor1>
+      <r>0</r>
+      <g>0</g>
+      <b>0</b>
+      <a>1</a>
+    </SampleColor1>
+    <SampleUV1>
+      <x>0</x>
+      <y>0</y>
+    </SampleUV1>
+    <SampleColor2>
+      <r>0</r>
+      <g>0</g>
+      <b>0</b>
+      <a>1</a>
+    </SampleColor2>
+    <SampleUV2>
+      <x>0</x>
+      <y>0</y>
+    </SampleUV2>
+    <Sample2Height>0.3</Sample2Height>
+  </HFDS>
+  <heightMapPath>texture koper merah_height.png</heightMapPath>
+  <EDS>
+    <LightMaskPowText>0</LightMaskPowText>
+    <FinalContrast>1.01923072</FinalContrast>
+    <FinalContrastText>1.0192</FinalContrastText>
+    <FinalBias>-0.201923072</FinalBias>
+    <FinalBiasText>-0.201</FinalBiasText>
+    <ColorLerp>1</ColorLerp>
+    <ColorLerpText>1</ColorLerpText>
+  </EDS>
+  <diffuseMapPath>texture koper merah_diffuse.png</diffuseMapPath>
+  <diffuseMapOriginalPath>texture koper merah_diffuseOriginal.png</diffuseMapOriginalPath>
+  <NFHS>
+    <SlopeBlur>50</SlopeBlur>
+  </NFHS>
+  <normalMapPath>texture koper merah_normal.png</normalMapPath>
+  <MS>
+    <MetalColor>
+      <r>0</r>
+      <g>0</g>
+      <b>0</b>
+      <a>1</a>
+    </MetalColor>
+    <SampleUV>
+      <x>0</x>
+      <y>0</y>
+    </SampleUV>
+    <BlurOverlay>-1.40384626</BlurOverlay>
+    <BlurOverlayText>-1.403</BlurOverlayText>
+    <FinalContrast>0.230769247</FinalContrast>
+    <FinalContrastText>0.2307</FinalContrastText>
+    <FinalBias>-0.399038464</FinalBias>
+    <FinalBiasText>-0.399</FinalBiasText>
+  </MS>
+  <metallicMapPath>texture koper merah_metallic.png</metallicMapPath>
+  <SS>
+    <SampleColor1>
+      <r>0</r>
+      <g>0</g>
+      <b>0</b>
+      <a>1</a>
+    </SampleColor1>
+    <SampleUV1>
+      <x>0</x>
+      <y>0</y>
+    </SampleUV1>
+    <SampleColor2>
+      <r>0</r>
+      <g>0</g>
+      <b>0</b>
+      <a>1</a>
+    </SampleColor2>
+    <SampleUV2>
+      <x>0</x>
+      <y>0</y>
+    </SampleUV2>
+    <SampleColor3>
+      <r>0</r>
+      <g>0</g>
+      <b>0</b>
+      <a>1</a>
+    </SampleColor3>
+    <SampleUV3>
+      <x>0</x>
+      <y>0</y>
+    </SampleUV3>
+  </SS>
+  <smoothnessMapPath>texture koper merah_smoothness.png</smoothnessMapPath>
+  <ES>
+    <Blur0Contrast>1</Blur0Contrast>
+  </ES>
+  <edgeMapPath>texture koper merah_edge.png</edgeMapPath>
+  <AOS>
+    <Spread>50</Spread>
+    <BlendText>1.0</BlendText>
+  </AOS>
+  <aoMapPath>texture koper merah_ao.png</aoMapPath>
+  <MatS />
+</ProjectObject>
