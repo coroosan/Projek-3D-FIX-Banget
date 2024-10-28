@@ -298,19 +298,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2100559736}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2100559734}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2100559733}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2100559738}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2100559739}
+      addedObject: {fileID: 2100559740}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2100559741}
   m_SourcePrefab: {fileID: 100100000, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
 --- !u!1 &1424144859
 GameObject:
@@ -431,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 1581810168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 413.6, y: 0.17, z: 378.7}
+  m_LocalPosition: {x: 413.6, y: 5, z: 378.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -462,7 +456,7 @@ Transform:
   m_GameObject: {fileID: 1803879720}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 427.5, y: -0.91, z: 437.28}
+  m_LocalPosition: {x: 427.5, y: 5, z: 437.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -473,51 +467,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
   m_PrefabInstance: {fileID: 313326676}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2100559733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100559732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acd5864898c19fc41999d427e3eaca4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 20
-  lifespan: 5
-  hitEffect: {fileID: 0}
---- !u!114 &2100559734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100559732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f546a6d0833104944b03f6ac308106da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 0}
-  spawnPoint: {fileID: 0}
-  bulletSpeed: 20
-  bulletDamage: 10
---- !u!114 &2100559736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100559732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a7564b899ce2154e984daab57a61c27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  damage: 0
 --- !u!114 &2100559738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,20 +479,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d5d79b81bcd5842b13bd2d8ba5b7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
+  currentState: 2
   patrolPoints:
   - {fileID: 1803879721}
   - {fileID: 1581810169}
-  patrolSpeed: 3.5
-  chaseSpeed: 5
-  attackDistance: 4
-  detectionRadius: 10
-  shootReactionRadius: 15
+  patrolSpeed: 2
+  chaseSpeed: 3.37
+  detectionRadius: 7.19
+  shootingDistance: 13.67
+  explosionDistance: 4.27
   attackCooldown: 2
-  flyingHeight: 10
+  burstInterval: 0.2
+  burstCount: 3
+  flyingHeight: 5
+  rotationSpeed: 5
+  maxHealth: 20
+  explosionDamage: 20
   bulletPrefab: {fileID: 0}
   bulletSpawnPoint: {fileID: 0}
---- !u!114 &2100559739
+  explosionEffectPrefab: {fileID: 0}
+  bulletSpeed: 20
+--- !u!114 &2100559740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,22 +508,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 2100559732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84d5d79b81bcd5842b13bd2d8ba5b7b8, type: 3}
+  m_Script: {fileID: 11500000, guid: c186a069218eec14fa4425ec3f55c91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
-  patrolPoints:
-  - {fileID: 1803879721}
-  - {fileID: 1581810169}
-  patrolSpeed: 3.5
-  chaseSpeed: 5
-  attackDistance: 4
-  detectionRadius: 10
-  shootReactionRadius: 15
-  attackCooldown: 2
-  flyingHeight: 10
-  bulletPrefab: {fileID: 0}
-  bulletSpawnPoint: {fileID: 0}
+  maxHealth: 100
+--- !u!135 &2100559741
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100559732}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 6.358395
+  m_Center: {x: 0, y: 0, z: 0.5793913}
 --- !u!1001 &4600011880686000835
 PrefabInstance:
   m_ObjectHideFlags: 0
