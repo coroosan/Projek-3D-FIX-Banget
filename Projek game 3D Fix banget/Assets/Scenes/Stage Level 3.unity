@@ -23681,7 +23681,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5df9020b0cd42af45a60ad5a404fa112, type: 3}
-<<<<<<< Updated upstream
 --- !u!4 &1691026712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5df9020b0cd42af45a60ad5a404fa112, type: 3}
@@ -23769,15 +23768,11 @@ MeshCollider:
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1001 &1704185734
-=======
---- !u!1001 &1719723465
->>>>>>> Stashed changes
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-<<<<<<< Updated upstream
     m_TransformParent: {fileID: 1529327386}
     m_Modifications:
     - target: {fileID: 100000, guid: dc37a8759a6c2884ca867bd962bf2016, type: 3}
@@ -23833,63 +23828,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: dc37a8759a6c2884ca867bd962bf2016, type: 3}
-=======
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3801166463787912019, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_Name
-      value: musuh udara 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.72477466
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.72477466
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.72477466
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1004.4692
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 35.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 333.1971
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4578934242742145513, guid: f0a80ad77899e13409221af054960d5b, type: 3}
->>>>>>> Stashed changes
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -23897,7 +23835,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-<<<<<<< Updated upstream
   m_SourcePrefab: {fileID: 100100000, guid: dc37a8759a6c2884ca867bd962bf2016, type: 3}
 --- !u!4 &1704185735 stripped
 Transform:
@@ -24041,9 +23978,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -8230709119203629699, guid: a4feeca4a93e93d4b8723f8cf8a633fd, type: 3}
-=======
-  m_SourcePrefab: {fileID: 100100000, guid: f0a80ad77899e13409221af054960d5b, type: 3}
->>>>>>> Stashed changes
 --- !u!1001 &1727139873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30174,7 +30108,6 @@ SceneRoots:
   - {fileID: 433901250}
   - {fileID: 1283052326}
   - {fileID: 1562326472}
-<<<<<<< Updated upstream
   - {fileID: 1275219260}
   - {fileID: 2032153000}
   - {fileID: 743038734}
@@ -30187,16 +30120,3 @@ SceneRoots:
   - {fileID: 2025373148}
   - {fileID: 48389338}
   - {fileID: 1529327386}
-=======
-  - {fileID: 1921294306}
-  - {fileID: 1053156229}
-  - {fileID: 951431878}
-  - {fileID: 1870156280}
-  - {fileID: 2125722643}
-  - {fileID: 2147399203}
-  - {fileID: 167500837}
-  - {fileID: 1360533581}
-  - {fileID: 314733006}
-  - {fileID: 1727139873}
-  - {fileID: 1719723465}
->>>>>>> Stashed changes
