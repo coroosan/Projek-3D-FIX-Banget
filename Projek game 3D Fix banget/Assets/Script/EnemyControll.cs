@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyControll : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class EnemyControll : MonoBehaviour
     private int currentPatrolIndex;
     private float lastAttackTime;
     private bool isTriggeredByShot;
+    private NavMeshAgent agent;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
