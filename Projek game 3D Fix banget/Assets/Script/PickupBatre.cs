@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PickupBatre : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private ParticleSystem ps;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        ps = GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            Destroy(gameObject, ps.main.duration); // Hancurkan setelah durasi particle system
+        }
+        else
+        {
+            Destroy(gameObject, 2f); // Durasi default jika tidak ada particle system
+        }
     }
 }
