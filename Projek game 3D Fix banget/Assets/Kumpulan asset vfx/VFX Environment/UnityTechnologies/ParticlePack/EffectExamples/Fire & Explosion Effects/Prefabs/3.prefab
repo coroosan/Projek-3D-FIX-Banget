@@ -4820,7 +4820,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4865135451303388}
   - component: {fileID: 198856239026640498}
+  - component: {fileID: 4471779857078103943}
   - component: {fileID: 199756426985724656}
+  - component: {fileID: 5956176910258579770}
+  - component: {fileID: 8115168919229135133}
   m_Layer: 0
   m_Name: 3
   m_TagString: Untagged
@@ -4838,7 +4841,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 4.69, y: 3.41, z: -20.589817}
-  m_LocalScale: {x: 243.8612, y: 243.8612, z: 243.8612}
+  m_LocalScale: {x: 29.073528, y: 29.073528, z: 29.073528}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4778554132450660}
@@ -4856,7 +4859,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 2
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -5483,9 +5486,9 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Position: {x: 6.642775e-10, y: -0.000000031271068, z: 0.0000000033334149}
+    m_Rotation: {x: 0.00048296733, y: 0, z: 0}
+    m_Scale: {x: 0.5403752, y: 0.5403752, z: 0.5403752}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -5564,7 +5567,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.1553688
+      value: 0.0001
       mode: 0
       spread: 0
       speed:
@@ -9666,6 +9669,23 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &4471779857078103943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329845292236604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a04aec8250261438a1ee9ce6cf6bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionRadius: 5.65
+  explosionDamage: 50
+  damageableLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!199 &199756426985724656
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9740,6 +9760,39 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!65 &5956176910258579770
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329845292236604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.9190955, y: 2.2007484, z: 2.5006778}
+  m_Center: {x: -0.08835299, y: -0.028827647, z: -0.085244924}
+--- !u!114 &8115168919229135133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329845292236604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60d5f8ebe4cfc844eabbe00335b4077a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1367458547200666
 GameObject:
   m_ObjectHideFlags: 0
