@@ -28,14 +28,9 @@ public class BulletControlEnemy : MonoBehaviour
         // Cek apakah peluru mengenai pemain atau objek lainnya
         if (other.CompareTag("Player"))
         {
-            // Berikan damage ke player
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damage); // Mengurangi kesehatan pemain
-            }
-
-            Destroy(gameObject); // Hancurkan peluru setelah mengenai player
+            // Tambahkan logika untuk memberikan damage
+            // Contoh: other.GetComponent<PlayerHealth>().TakeDamage(damage);
+            Destroy(gameObject); // Hancurkan peluru setelah terkena
         }
     }
 }

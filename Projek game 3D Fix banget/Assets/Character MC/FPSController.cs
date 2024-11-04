@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,56 +9,39 @@ public class FPSPlayerController : MonoBehaviour
     public Camera playerCamera;
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
-    public float jumpHeight = 2f;
+    public float jumpHeight = 2f; // Tinggi lompatan
     public float gravity = 9.8f;
 
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
 
     public Image crosshair; // Referensi ke Crosshair UI
-    public float health = 100f; // Kesehatan pemain
 
-    private Vector3 moveDirection = Vector3.zero;
-    private float rotationX = 0;
+    Vector3 moveDirection = Vector3.zero;
+    float rotationX = 0;
 
     public bool canMove = true;
     private float verticalVelocity = 0f;
     private bool isJumping = false;
-    private bool isDead = false; // Menandakan apakah pemain mati
-    private Animator animator;
 
-    private CharacterController characterController;
+    CharacterController characterController;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        // Set ukuran awal crosshair
         SetCrosshairSize(50f); // Ukuran default
     }
 
     void Update()
     {
-        if (!isDead) // Hanya jalankan kontrol jika tidak mati
-        {
-            HandleMovement();
-            HandleJumping();
-            HandleRotation();
-            HandleCrosshair();
-        }
-        else
-        {
-            // Logika setelah mati, jika diperlukan
-            // Misalnya, menonaktifkan input atau memberikan efek visual
-        }
-
-        // Cek kesehatan
-        if (health <= 0 && !isDead)
-        {
-            Die();
-        }
+        HandleMovement();
+        HandleJumping();
+        HandleRotation();
+        HandleCrosshair();
     }
 
     void HandleMovement()
@@ -84,7 +68,7 @@ public class FPSPlayerController : MonoBehaviour
         }
         else
         {
-            verticalVelocity -= gravity * Time.deltaTime;
+            verticalVelocity -= gravity * Time.deltaTime; // Terapkan gravitasi saat tidak di tanah
         }
 
         moveDirection.y = verticalVelocity;
@@ -109,6 +93,7 @@ public class FPSPlayerController : MonoBehaviour
 
     void HandleCrosshair()
     {
+        // Menyembunyikan crosshair saat menembak
         if (Input.GetButton("Fire1"))
         {
             SetCrosshairSize(30f); // Ubah ukuran saat menembak
@@ -121,30 +106,7 @@ public class FPSPlayerController : MonoBehaviour
 
     void SetCrosshairSize(float size)
     {
+        // Mengatur ukuran crosshair
         crosshair.rectTransform.sizeDelta = new Vector2(size, size);
-    }
-
-    public void Die()
-    {
-        if (isDead) return; // Hindari panggilan berulang
-        isDead = true;
-
-        animator.SetBool("isDead", true); // Memicu animasi mati
-        GetComponent<Collider>().enabled = false; // Menonaktifkan collider agar tidak bisa berinteraksi
-
-        // Menonaktifkan semua gerakan
-        canMove = false;
-    }
-
-    public void TakeDamage(float damage)
-    {
-        if (!isDead)
-        {
-            health -= damage; // Kurangi kesehatan
-            if (health <= 0)
-            {
-                Die(); // Jika kesehatan <= 0, panggil metode Die()
-            }
-        }
     }
 }
