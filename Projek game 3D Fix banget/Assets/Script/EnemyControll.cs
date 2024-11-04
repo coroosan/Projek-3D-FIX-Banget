@@ -19,48 +19,42 @@ public class EnemyControll : MonoBehaviour
     public int burstCount = 3;
     public float flyingHeight = 10f;
     public float rotationSpeed = 5f;
+    public int maxHealth = 100; // Health maksimum musuh
+    public int explosionDamage = 50; // Damage yang diberikan pada pemain saat meledak
 
-    public EnemyHealth enemyHealth; // Tambahkan referensi ke EnemyHealth
+    private int health;
     private Transform player;
     private int currentPatrolIndex;
     private float lastAttackTime;
     private bool isTriggeredByShot;
-    public NavMeshAgent agent;
+    private NavMeshAgent agent;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private GameObject explosionEffectPrefab;
     [SerializeField] private float bulletSpeed = 20f;
-
-    [SerializeField] private GameObject explosionPrefab; // Tambahkan referensi ke prefab ledakan
 
     private int burstShotsFired;
     private float nextBurstShotTime;
-    private bool hasExploded = false; // Flag untuk mengecek apakah musuh sudah meledak
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyHealth = GetComponent<EnemyHealth>(); // Ambil komponen EnemyHealth
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
+        health = maxHealth; // Set health awal musuh
         GoToNextPatrolPoint();
     }
 
     void Update()
     {
-        // Cek apakah musuh sudah mati, jika ya, hentikan semua aktivitas.
-        if (enemyHealth.health <= 0)
-        {
-            return; // Jika musuh sudah mati, tidak perlu melanjutkan Update.
-        }
-
         Vector3 flyingPosition = new Vector3(transform.position.x, flyingHeight, transform.position.z);
         transform.position = flyingPosition;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
         // Logika transisi state
-        if (distanceToPlayer <= explosionDistance && !hasExploded) // Cek apakah belum meledak
+        if (health <= 20 && distanceToPlayer <= explosionDistance)
         {
             currentState = EnemyState.Explode;
         }
@@ -95,8 +89,6 @@ public class EnemyControll : MonoBehaviour
                 break;
         }
     }
-
-
     void Shoot()
     {
         RotateTowards(player.position);
@@ -154,14 +146,23 @@ public class EnemyControll : MonoBehaviour
 
     void Explode()
     {
-        if (!hasExploded)
-        {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            enemyHealth.Die(); // Tidak memanggil ledakan di Die()
-            hasExploded = true;
-        }
-    }
+        // Tampilkan efek ledakan
+        Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
 
+        // Periksa jarak ke pemain dan beri damage jika dalam radius ledakan
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        if (distanceToPlayer <= explosionDistance)
+        {
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(explosionDamage);
+            }
+        }
+
+        // Hancurkan musuh
+        Destroy(gameObject);
+    }
 
     void MoveToTarget(Vector3 targetPosition, float speed)
     {
@@ -179,7 +180,17 @@ public class EnemyControll : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        enemyHealth.TakeDamage(damageAmount); // Panggil fungsi TakeDamage dari EnemyHealth
+        health -= damageAmount;
+
+        if (health <= 20)
+        {
+            currentState = EnemyState.Explode;
+        }
+        else
+        {
+            isTriggeredByShot = true;
+            currentState = EnemyState.Chase;
+        }
     }
 
     void OnDrawGizmosSelected()

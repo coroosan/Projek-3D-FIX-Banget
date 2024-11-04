@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
 {
-    public Animator animator;
+    private Animator animator;
 
     void Start()
     {
@@ -14,34 +14,23 @@ public class AnimatorController : MonoBehaviour
 
     void Update()
     {
-        // Mengontrol animasi dengan float pada Blend Tree untuk berjalan, idle, dan berlari
-        float move = Input.GetAxis("Vertical");
-        animator.SetFloat("Blend", move);
-
-        // Mengaktifkan dan menonaktifkan animasi lompat menggunakan bool
+        // Contoh kontrol animasi menggunakan parameter
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            animator.SetBool("Jumping", true);
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            animator.SetBool("Jumping", false);
+            animator.SetTrigger("JumpTrigger");  // Trigger animasi lompat
         }
 
-        // Mengaktifkan dan menonaktifkan animasi menembak menggunakan bool
-        if (Input.GetMouseButtonDown(0))  // Klik kiri mouse untuk menembak
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            animator.SetBool("Shoot", true);
+            animator.SetBool("IsRunning", true);  // Aktifkan animasi lari
         }
-        else if (Input.GetMouseButtonUp(0)) // Lepaskan klik kiri untuk menghentikan animasi menembak
+        else
         {
-            animator.SetBool("Shoot", false);
+            animator.SetBool("IsRunning", false);  // Nonaktifkan animasi lari
         }
 
-        // Trigger animasi mati (contoh, bisa disesuaikan jika diperlukan trigger atau bool)
-        if (Input.GetKeyDown(KeyCode.K))  // Tekan tombol 'K' untuk memicu animasi mati
-        {
-            animator.SetTrigger("Dead");
-        }
+        // Mengontrol animasi dengan float pada Blend Tree
+        float move = Input.GetAxis("Vertical");
+        animator.SetFloat("Blend", move);
     }
 }

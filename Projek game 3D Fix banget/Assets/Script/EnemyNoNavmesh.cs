@@ -22,16 +22,14 @@ public class EnemyWithNavMesh : MonoBehaviour
 
     [SerializeField]
     private GameObject explosionPrefab; // Prefab untuk efek ledakan
-    private bool hasExploded = false; // Menandakan apakah sudah meledak
-    private Animator animator; // Animator untuk mengatur animasi
-    private EnemyHealth enemyHealth;
 
     void Start()
     {
+        // Mengambil referensi player dan NavMeshAgent
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyHealth = GetComponent<EnemyHealth>();
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); // Ambil komponen Animator
+
+        // Mulai dari keadaan patrol
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
         GoToNextPatrolPoint();
@@ -39,16 +37,11 @@ public class EnemyWithNavMesh : MonoBehaviour
 
     void Update()
     {
-
-        if (enemyHealth != null && enemyHealth.IsDead)
-        {
-            // Jika musuh sudah mati, jangan lakukan gerakan apa pun
-            return;
-        }
-
+        // Update posisi terbang musuh pada ketinggian tetap
         Vector3 flyingPosition = new Vector3(transform.position.x, flyingHeight, transform.position.z);
         transform.position = flyingPosition;
 
+        // Ganti status sesuai keadaan
         switch (currentState)
         {
             case EnemyState.Patrol:
@@ -62,12 +55,14 @@ public class EnemyWithNavMesh : MonoBehaviour
                 break;
         }
 
+        // Cek jarak ke pemain untuk pindah ke Chase atau Explode
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         if (distanceToPlayer <= detectionRadius || isTriggeredByShot)
         {
             currentState = EnemyState.Chase;
         }
-
+        
+        // Pindah ke explode jika dalam jarak ledakan
         if (distanceToPlayer <= explodeDistance)
         {
             currentState = EnemyState.Explode;
@@ -78,7 +73,7 @@ public class EnemyWithNavMesh : MonoBehaviour
     {
         if (patrolPoints.Length == 0) return;
 
-        if (agent.remainingDistance < 0.5f)
+        if (agent.remainingDistance < 0.5f) // Jika sudah dekat dengan patrol point
         {
             GoToNextPatrolPoint();
         }
@@ -102,30 +97,14 @@ public class EnemyWithNavMesh : MonoBehaviour
 
     void Explode()
     {
-        if (!hasExploded) // Cek apakah ledakan sudah terjadi
-        {
-            if (animator != null)
-            {
-                animator.SetBool("Dead", true); // Mainkan animasi mati
-            }
-
-            StartCoroutine(HandleExplosion()); // Menunggu animasi sebelum meledak
-        }
-    }
-
-    private IEnumerator HandleExplosion()
-    {
-        // Tunggu beberapa detik sebelum meledak (sesuaikan dengan durasi animasi)
-        yield return new WaitForSeconds(1f);
-
+        // Logika untuk efek ledakan
         if (explosionPrefab != null)
         {
-            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(explosion, 2f); // Hancurkan objek ledakan setelah 2 detik
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         }
 
-        hasExploded = true; // Tandai bahwa ledakan sudah terjadi
-        Destroy(gameObject); // Hancurkan musuh setelah meledak
+        // Hancurkan musuh setelah meledak
+        Destroy(gameObject);
     }
 
     public void OnShot()
