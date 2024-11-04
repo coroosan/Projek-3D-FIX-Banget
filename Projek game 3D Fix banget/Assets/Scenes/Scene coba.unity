@@ -1853,6 +1853,10 @@ PrefabInstance:
       value: 'Mc '
       objectReference: {fileID: 0}
     - target: {fileID: 1045536121981508581, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1045536121981508581, guid: ac7c473f2bd51c845962da2d6e524753, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
