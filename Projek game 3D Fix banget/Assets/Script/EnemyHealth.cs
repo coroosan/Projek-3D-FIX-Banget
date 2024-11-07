@@ -103,7 +103,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (enemyType == EnemyType.TypeB && !isDead)
         {
-            animator.SetBool("Shoot", true); // Mulai animasi shoots
+            animator.SetBool("Shoot", true); // Mulai animasi shoot
         }
     }
 

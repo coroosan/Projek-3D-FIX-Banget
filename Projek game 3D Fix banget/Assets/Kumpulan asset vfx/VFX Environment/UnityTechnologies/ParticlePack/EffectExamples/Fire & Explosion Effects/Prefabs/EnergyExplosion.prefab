@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 2632880915932393186}
   m_Layer: 0
   m_Name: EnergyExplosion
-  m_TagString: Untagged
+  m_TagString: Explode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
