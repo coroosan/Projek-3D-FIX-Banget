@@ -1,93 +1,76 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyControll : MonoBehaviour
+public class EnemyControl : MonoBehaviour
 {
     public enum EnemyState { Patrol, Chase, Shoot, Explode }
     public EnemyState currentState;
 
     public Transform[] patrolPoints;
-    public float patrolSpeed = 3.5f;
-    public float chaseSpeed = 5f;
-    public float detectionRadius = 20f;
-    public float shootingDistance = 10f;
-    public float explosionDistance = 2f;
-    public float attackCooldown = 3f;
-    public float burstInterval = 0.2f;
+    public float patrolSpeed = 3.5f, chaseSpeed = 5f, detectionRadius = 20f, shootingDistance = 10f, explosionDistance = 2f;
     public int burstCount = 3;
-    public float flyingHeight = 10f;
-    public float rotationSpeed = 5f;
 
-    public EnemyHealth enemyHealth; // Tambahkan referensi ke EnemyHealth
     private Transform player;
     private int currentPatrolIndex;
-    private float lastAttackTime;
-    private bool isTriggeredByShot;
+    private float lastAttackTime, nextBurstShotTime;
+    private bool hasExploded = false;
+    private int burstShotsFired;
+
     public NavMeshAgent agent;
+    private Animator animator;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private float bulletSpeed = 20f;
-
-    [SerializeField] private GameObject explosionPrefab; // Tambahkan referensi ke prefab ledakan
-
-    private int burstShotsFired;
-    private float nextBurstShotTime;
-    private bool hasExploded = false; // Flag untuk mengecek apakah musuh sudah meledak
+    [SerializeField] private GameObject explosionPrefab;
 
     void Start()
     {
+        // Inisialisasi komponen NavMeshAgent
+        agent = GetComponent<NavMeshAgent>();
+
+        // Pastikan juga inisialisasi variabel lain
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyHealth = GetComponent<EnemyHealth>(); // Ambil komponen EnemyHealth
+        enemyHealth = GetComponent<EnemyHealth>();
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
+
+        // Mulai patroli
         GoToNextPatrolPoint();
     }
 
+
     void Update()
     {
-        // Cek apakah musuh sudah mati, jika ya, hentikan semua aktivitas.
-        if (enemyHealth.health <= 0)
-        {
-            return; // Jika musuh sudah mati, tidak perlu melanjutkan Update.
-        }
-
-        Vector3 flyingPosition = new Vector3(transform.position.x, flyingHeight, transform.position.z);
-        transform.position = flyingPosition;
+        if (hasExploded) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        currentState = DetermineState(distanceToPlayer);
+        UpdateState(distanceToPlayer);
+    }
 
-        // Logika transisi state
-        if (distanceToPlayer <= explosionDistance && !hasExploded) // Cek apakah belum meledak
-        {
-            currentState = EnemyState.Explode;
-        }
-        else if (distanceToPlayer <= detectionRadius || isTriggeredByShot)
-        {
-            currentState = EnemyState.Chase;
-        }
-        else if (distanceToPlayer <= shootingDistance && Time.time > lastAttackTime + attackCooldown)
-        {
-            burstShotsFired = 0;
-            currentState = EnemyState.Shoot;
-        }
-        else
-        {
-            currentState = EnemyState.Patrol;
-        }
+    EnemyState DetermineState(float distanceToPlayer)
+    {
+        if (distanceToPlayer <= explosionDistance) return EnemyState.Explode;
+        if (distanceToPlayer <= shootingDistance) return EnemyState.Shoot;
+        if (distanceToPlayer <= detectionRadius) return EnemyState.Chase;
+        return EnemyState.Patrol;
+    }
 
-        // Eksekusi logika state yang sesuai
+    void UpdateState(float distanceToPlayer)
+    {
         switch (currentState)
         {
             case EnemyState.Patrol:
+                animator.SetBool("Chase", false);
                 Patrol();
                 break;
             case EnemyState.Chase:
+                animator.SetBool("Chase", true);
                 Chase();
                 break;
             case EnemyState.Shoot:
+                animator.SetBool("Chase", false);
                 HandleShooting();
                 break;
             case EnemyState.Explode:
@@ -96,39 +79,20 @@ public class EnemyControll : MonoBehaviour
         }
     }
 
-
-    void Shoot()
-    {
-        RotateTowards(player.position);
-
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-        BulletControlEnemy bulletController = bullet.GetComponent<BulletControlEnemy>();
-
-        Vector3 shootingDirection = (player.position - bulletSpawnPoint.position).normalized;
-        bulletController.Initialize(shootingDirection, bulletSpeed, bulletDamage: 15f);
-    }
-
     void Patrol()
     {
         if (patrolPoints.Length == 0) return;
+        agent.speed = patrolSpeed;
+        agent.destination = patrolPoints[currentPatrolIndex].position;
 
-        Transform targetPoint = patrolPoints[currentPatrolIndex];
-        MoveToTarget(targetPoint.position, patrolSpeed);
-
-        if (Vector3.Distance(transform.position, targetPoint.position) < 1f)
-        {
+        if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) < 1f)
             GoToNextPatrolPoint();
-        }
-    }
-
-    void GoToNextPatrolPoint()
-    {
-        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
     }
 
     void Chase()
     {
-        MoveToTarget(player.position, chaseSpeed);
+        agent.speed = chaseSpeed;
+        agent.destination = player.position;
     }
 
     void HandleShooting()
@@ -137,36 +101,37 @@ public class EnemyControll : MonoBehaviour
 
         if (burstShotsFired < burstCount)
         {
+            animator.SetBool("Shoot", true);
             if (Time.time >= nextBurstShotTime)
             {
                 Shoot();
                 burstShotsFired++;
-                nextBurstShotTime = Time.time + burstInterval;
+                nextBurstShotTime = Time.time + 0.5f; // Delay per shot
             }
         }
         else
         {
+            animator.SetBool("Shoot", false);
+            burstShotsFired = 0;
             lastAttackTime = Time.time;
             currentState = EnemyState.Chase;
-            burstShotsFired = 0;
         }
+    }
+
+    void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().velocity = (player.position - bulletSpawnPoint.position).normalized * 20f;
     }
 
     void Explode()
     {
-        if (!hasExploded)
-        {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            enemyHealth.Die(); // Tidak memanggil ledakan di Die()
-            hasExploded = true;
-        }
-    }
+        if (hasExploded) return;
+        hasExploded = true;
 
-
-    void MoveToTarget(Vector3 targetPosition, float speed)
-    {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
-        RotateTowards(targetPosition);
+        animator.SetTrigger("Dead");
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject, 1f); // Destroy after explosion
     }
 
     void RotateTowards(Vector3 targetPosition)
@@ -174,21 +139,12 @@ public class EnemyControll : MonoBehaviour
         Vector3 direction = (targetPosition - transform.position).normalized;
         direction.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    public void TakeDamage(int damageAmount)
+    void GoToNextPatrolPoint()
     {
-        enemyHealth.TakeDamage(damageAmount); // Panggil fungsi TakeDamage dari EnemyHealth
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, shootingDistance);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, explosionDistance);
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        agent.destination = patrolPoints[currentPatrolIndex].position;
     }
 }

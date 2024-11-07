@@ -39,35 +39,32 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-
         Debug.Log("Enemy has died.");
 
         if (animator != null)
         {
-            animator.SetTrigger("Dead"); // Mainkan animasi mati
+            animator.SetTrigger("Dead"); // Animasi mati
         }
 
         if (explosionPrefab != null)
         {
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity); // Ledakan tanpa delay
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         }
 
-        // Nonaktifkan collider untuk menghentikan interaksi
+        // Nonaktifkan collider dan NavMeshAgent
         Collider collider = GetComponent<Collider>();
         if (collider != null)
         {
             collider.enabled = false;
         }
 
-        // Nonaktifkan gerakan (contoh untuk NavMeshAgent)
         UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (agent != null)
         {
             agent.enabled = false;
         }
 
-        // Nonaktifkan renderer setelah animasi selesai untuk sembunyikan objek tanpa menghancurkannya
-        StartCoroutine(HideAfterDelay(1.5f)); // 1.5 detik untuk memberi waktu animasi
+        StartCoroutine(HideAfterDelay(1.5f));
     }
 
     private IEnumerator HideAfterDelay(float delay)
@@ -79,11 +76,42 @@ public class EnemyHealth : MonoBehaviour
             renderer.enabled = false;
         }
 
-        // Optional: Nonaktifkan komponen script yang mengendalikan logika musuh
         EnemyWithNavMesh controller = GetComponent<EnemyWithNavMesh>();
         if (controller != null)
         {
             controller.enabled = false;
+        }
+    }
+
+    public void StartChase()
+    {
+        if (enemyType == EnemyType.TypeB && !isDead)
+        {
+            animator.SetBool("Chase", true); // Mengaktifkan animasi chase
+        }
+    }
+
+    public void StopChase()
+    {
+        if (enemyType == EnemyType.TypeB)
+        {
+            animator.SetBool("Chase", false);
+        }
+    }
+
+    public void StartShoot()
+    {
+        if (enemyType == EnemyType.TypeB && !isDead)
+        {
+            animator.SetBool("Shoot", true); // Mulai animasi shoot
+        }
+    }
+
+    public void StopShoot()
+    {
+        if (enemyType == EnemyType.TypeB)
+        {
+            animator.SetBool("Shoot", false); // Hentikan animasi shoot
         }
     }
 }
