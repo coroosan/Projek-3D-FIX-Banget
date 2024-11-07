@@ -1,54 +1,59 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float health = 100f; // Kesehatan pemain
-    private Animator animator; // Referensi ke komponen Animator
+    public float playerHealth = 100f; // Kesehatan pemain awal
+    public Image healthImpact; // Gambar untuk menampilkan efek kesehatan
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
-        // Dapatkan komponen Animator di objek pemain
-        animator = GetComponent<Animator>();
+        playerHealth = 100;
+        healthImpact.color = Color.red;
     }
 
-    // Fungsi untuk menerima damage
-    public void TakeDamage(float amount)
+    // Deteksi saat pemain bertabrakan dengan objek lain
+    private void OnTriggerEnter(Collider other)
     {
-        // Jika animasi "Die" sedang aktif, abaikan damage lebih lanjut
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+        if (other.CompareTag("Bullet")) // Jika terkena peluru
         {
-            Debug.Log("Player is already dead, ignoring damage.");
-            return;
+            TakeDamage(10f); // Contoh damage dari peluru
+            Destroy(other.gameObject); // Hapus peluru setelah mengenai pemain
         }
 
-        // Kurangi kesehatan pemain
-        health -= amount;
-        Debug.Log("Damage taken: " + amount + ", Remaining health: " + health);
-
-        // Jika kesehatan mencapai 0 atau kurang, panggil Die
-        if (health <= 0)
+        if (other.CompareTag("Explode")) // Jika terkena ledakan
         {
-            health = 0; // Setel kesehatan ke 0 agar tidak negatif
-            Die();
+            TakeDamage(25f); // Contoh damage dari ledakan
         }
     }
 
-    // Fungsi untuk menangani logika kematian
-    private void Die()
+    void HealthDamageImpact()
     {
-        Debug.Log("Player is dead!");
+        float transparency = 1f - (playerHealth / 100f);
+        Color imageColor = Color.white;
+        imageColor.a = transparency;
+        healthImpact.color = imageColor;
 
-        // Aktifkan animasi kematian menggunakan Trigger
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-            Debug.Log("Trigger 'Die' set in Animator.");
-        }
-        else
-        {
-            Debug.LogWarning("Animator is not assigned!");
-        }
+        Debug.Log("Player Health: " + playerHealth + ", Transparency: " + transparency);
+    }
 
-        // Tambahkan logika lain, seperti menonaktifkan kontrol pemain
+    // Mengurangi kesehatan pemain - ubah aksesibilitas menjadi public
+    public void TakeDamage(float damage) // Ubah dari private menjadi public
+    {
+        if (playerHealth > 0)
+        {
+            playerHealth -= damage;
+            playerHealth = Mathf.Max(playerHealth, 0); // Pastikan kesehatan tidak di bawah 0
+            Debug.Log("Player is taking damage, current health: " + playerHealth);
+        }
+    }
+
+    // Update is called once per frame 
+    void Update()
+    {
+        HealthDamageImpact(); // Perbarui efek gambar kesehatan
     }
 }
