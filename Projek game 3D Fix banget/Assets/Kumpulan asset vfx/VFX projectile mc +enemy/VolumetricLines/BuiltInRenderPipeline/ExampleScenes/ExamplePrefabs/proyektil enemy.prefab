@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 10825254}
   - component: {fileID: 4424285751838339950}
   - component: {fileID: 8179792813642549622}
-  - component: {fileID: 7672291940597515037}
+  - component: {fileID: 4652066745053707908}
   m_Layer: 0
   m_Name: proyektil enemy
   m_TagString: Untagged
@@ -230,7 +230,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7672291940597515037
+--- !u!114 &4652066745053707908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,8 +239,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 136330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a7564b899ce2154e984daab57a61c27, type: 3}
+  m_Script: {fileID: 11500000, guid: acad5f9989e311742b0ea5ba3a0776e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  damage: 5
+  target: {fileID: 0}
+  speed: 10
+  lifeTime: 5
+  damage: 10

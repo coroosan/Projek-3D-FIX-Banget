@@ -24,31 +24,30 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private GameObject explosionPrefab;
 
+    private EnemyHealth enemyHealth;
+
     void Start()
     {
-        // Inisialisasi komponen NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
-
-        // Pastikan juga inisialisasi variabel lain
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player")?.transform;
         enemyHealth = GetComponent<EnemyHealth>();
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
 
-        // Mulai patroli
         GoToNextPatrolPoint();
     }
 
-
     void Update()
     {
-        if (hasExploded) return;
+        if (hasExploded || player == null || agent == null || animator == null) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
         currentState = DetermineState(distanceToPlayer);
         UpdateState(distanceToPlayer);
     }
 
+    // Tambahkan fungsi DetermineState di sini
     EnemyState DetermineState(float distanceToPlayer)
     {
         if (distanceToPlayer <= explosionDistance) return EnemyState.Explode;
@@ -81,9 +80,11 @@ public class EnemyControl : MonoBehaviour
 
     void Patrol()
     {
+        if (agent == null || !agent.isOnNavMesh) return; // Pastikan agent ada dan berada di NavMesh
+
         if (patrolPoints.Length == 0) return;
         agent.speed = patrolSpeed;
-        agent.destination = patrolPoints[currentPatrolIndex].position;
+        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
 
         if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) < 1f)
             GoToNextPatrolPoint();

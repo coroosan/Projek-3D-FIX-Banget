@@ -9,8 +9,16 @@ public class MeriamPeluru : MonoBehaviour
     public float lifeTime = 5f; // Waktu hidup peluru sebelum hancur
     public int damage = 10; // Damage yang diberikan ke player
 
+
     void Start()
     {
+        // Cari GameObject dengan tag "Player" dan ambil Transform-nya
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            target = player.transform;
+        }
+
         // Hancurkan peluru setelah lifeTime (untuk mencegah peluru bergerak terus)
         Destroy(gameObject, lifeTime);
     }

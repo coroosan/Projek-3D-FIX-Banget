@@ -23,7 +23,6 @@ public class EnemyWithNavMesh : MonoBehaviour
     [SerializeField]
     private GameObject explosionPrefab; // Prefab untuk efek ledakan
     private bool hasExploded = false; // Menandakan apakah sudah meledak
-    private Animator animator; // Animator untuk mengatur animasi
     private EnemyHealth enemyHealth;
 
     void Start()
@@ -31,7 +30,6 @@ public class EnemyWithNavMesh : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyHealth = GetComponent<EnemyHealth>();
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); // Ambil komponen Animator
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
         GoToNextPatrolPoint();
@@ -39,16 +37,25 @@ public class EnemyWithNavMesh : MonoBehaviour
 
     void Update()
     {
-
         if (enemyHealth != null && enemyHealth.IsDead)
         {
-            // Jika musuh sudah mati, jangan lakukan gerakan apa pun
-            return;
+            return; // Jangan lakukan apa pun jika musuh sudah mati
         }
 
+        // Pastikan posisi musuh tetap di ketinggian terbang
         Vector3 flyingPosition = new Vector3(transform.position.x, flyingHeight, transform.position.z);
         transform.position = flyingPosition;
 
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+
+        // Logika eksplosi ketika mendekati pemain tanpa animasi tambahan
+        if (distanceToPlayer <= explodeDistance && !hasExploded)
+        {
+            Explode();
+            return;
+        }
+
+        // Periksa status saat ini untuk menentukan aksi
         switch (currentState)
         {
             case EnemyState.Patrol:
@@ -57,20 +64,12 @@ public class EnemyWithNavMesh : MonoBehaviour
             case EnemyState.Chase:
                 Chase();
                 break;
-            case EnemyState.Explode:
-                Explode();
-                break;
         }
 
-        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        // Beralih ke "Chase" jika pemain berada dalam jarak deteksi atau ditembak
         if (distanceToPlayer <= detectionRadius || isTriggeredByShot)
         {
             currentState = EnemyState.Chase;
-        }
-
-        if (distanceToPlayer <= explodeDistance)
-        {
-            currentState = EnemyState.Explode;
         }
     }
 
@@ -84,6 +83,9 @@ public class EnemyWithNavMesh : MonoBehaviour
         }
 
         agent.speed = patrolSpeed;
+        Vector3 targetPosition = patrolPoints[currentPatrolIndex].position;
+        targetPosition.y = flyingHeight; // Atur ketinggian ke flyingHeight
+        agent.SetDestination(targetPosition);
     }
 
     void GoToNextPatrolPoint()
@@ -91,34 +93,22 @@ public class EnemyWithNavMesh : MonoBehaviour
         if (patrolPoints.Length == 0) return;
 
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        Vector3 targetPosition = patrolPoints[currentPatrolIndex].position;
+        targetPosition.y = flyingHeight; // Atur ketinggian ke flyingHeight
+        agent.SetDestination(targetPosition);
     }
 
     void Chase()
     {
-        agent.SetDestination(player.position);
+        Vector3 targetPosition = player.position;
+        targetPosition.y = flyingHeight; // Atur ketinggian ke flyingHeight
+        agent.SetDestination(targetPosition);
         agent.speed = chaseSpeed;
     }
 
     void Explode()
     {
-        if (!hasExploded) // Cek apakah ledakan sudah terjadi
-        {
-            if (animator != null)
-            {
-                animator.SetBool("Dead", true); // Mainkan animasi mati
-            }
-
-            StartCoroutine(HandleExplosion()); // Menunggu animasi sebelum meledak
-        }
-    }
-
-    private IEnumerator HandleExplosion()
-    {
-        // Tunggu beberapa detik sebelum meledak (sesuaikan dengan durasi animasi)
-        yield return new WaitForSeconds(1f);
-
-        if (explosionPrefab != null)
+        if (explosionPrefab != null && !hasExploded)
         {
             GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             Destroy(explosion, 2f); // Hancurkan objek ledakan setelah 2 detik
