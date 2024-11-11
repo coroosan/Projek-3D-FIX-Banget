@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - FxTemporaire
+  - Explode
+  - Bullet
+  - Plane
   layers:
   - Default
   - TransparentFX
