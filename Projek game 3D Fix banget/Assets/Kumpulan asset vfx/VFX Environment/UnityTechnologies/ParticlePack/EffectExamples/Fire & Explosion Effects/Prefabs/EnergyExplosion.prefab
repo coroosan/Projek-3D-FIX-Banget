@@ -4822,6 +4822,7 @@ GameObject:
   - component: {fileID: 198856239026640498}
   - component: {fileID: 199756426985724656}
   - component: {fileID: 2632880915932393186}
+  - component: {fileID: 307980675768268022}
   m_Layer: 0
   m_Name: EnergyExplosion
   m_TagString: Explode
@@ -9753,11 +9754,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a04aec8250261438a1ee9ce6cf6bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionRadius: 18.9
+  explosionRadius: 5
   explosionDamage: 30
   damageableLayer:
     serializedVersion: 2
     m_Bits: 256
+--- !u!65 &307980675768268022
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329845292236604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.8219047, y: 3.0107064, z: 1.9819192}
+  m_Center: {x: 0.15614814, y: -0.10278928, z: -0.27843872}
 --- !u!1 &1367458547200666
 GameObject:
   m_ObjectHideFlags: 0
