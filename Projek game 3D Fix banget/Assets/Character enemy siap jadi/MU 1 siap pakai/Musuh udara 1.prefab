@@ -9,8 +9,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
+      propertyPath: chaseSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: detectionRadius
-      value: 30
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: explodeDistance
