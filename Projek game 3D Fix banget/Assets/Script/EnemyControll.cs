@@ -98,6 +98,13 @@ public class EnemyControl : MonoBehaviour
 
     void HandleShooting()
     {
+        // Cek apakah musuh sudah mati
+        if (hasExploded || (enemyHealth != null && enemyHealth.IsDead))
+        {
+            animator.SetBool("Shoot", false);
+            return;
+        }
+
         RotateTowards(player.position);
 
         if (burstShotsFired < burstCount)
@@ -121,9 +128,14 @@ public class EnemyControl : MonoBehaviour
 
     void Shoot()
     {
+        // Cek apakah musuh sudah mati sebelum menembak
+        if (hasExploded || (enemyHealth != null && enemyHealth.IsDead)) return;
+
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
         bullet.GetComponent<Rigidbody>().velocity = (player.position - bulletSpawnPoint.position).normalized * 20f;
     }
+
+
 
     void Explode()
     {

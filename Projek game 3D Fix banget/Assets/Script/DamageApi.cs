@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class DamageApi : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float damagePerSecond = 10f; // Damage yang diberikan per detik
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerStay(Collider other)
+
     {
-        
+        // Mengecek apakah objek yang masuk zona adalah player
+        if (other.CompareTag("Player"))
+        {
+            // Mengambil komponen PlayerHealth dari objek player
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                // Memberikan damage kepada player
+                playerHealth.TakeDamage(damagePerSecond * Time.deltaTime);
+            }
+        }
     }
 }
