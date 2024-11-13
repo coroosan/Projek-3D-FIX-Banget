@@ -21,7 +21,8 @@ public class EnemyControl : MonoBehaviour
     private Animator animator;
 
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform bulletSpawnPoint;
+    [SerializeField] private Transform bulletSpawnPoint1; // Titik spawn pertama
+    [SerializeField] private Transform bulletSpawnPoint2; // Titik spawn kedua
     [SerializeField] private GameObject explosionPrefab;
 
     private EnemyHealth enemyHealth;
@@ -131,11 +132,18 @@ public class EnemyControl : MonoBehaviour
         // Cek apakah musuh sudah mati sebelum menembak
         if (hasExploded || (enemyHealth != null && enemyHealth.IsDead)) return;
 
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody>().velocity = (player.position - bulletSpawnPoint.position).normalized * 20f;
+        // Menembak dari dua titik spawn
+        ShootFromPoint(bulletSpawnPoint1);
+        ShootFromPoint(bulletSpawnPoint2);
     }
 
+    void ShootFromPoint(Transform spawnPoint)
+    {
+        if (hasExploded || (enemyHealth != null && enemyHealth.IsDead)) return;
 
+        GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().velocity = (player.position - spawnPoint.position).normalized * 20f;
+    }
 
     void Explode()
     {
