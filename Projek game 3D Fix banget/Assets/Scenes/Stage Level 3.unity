@@ -15200,6 +15200,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3616071921891626868, guid: 72c4f658298ec6d47ae088fdcf174d80, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6546960530233236511, guid: 72c4f658298ec6d47ae088fdcf174d80, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6813344634683123116, guid: 72c4f658298ec6d47ae088fdcf174d80, type: 3}
       propertyPath: m_Height
       value: 3
@@ -30115,9 +30123,9 @@ Light:
   m_GameObject: {fileID: 1738905702}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 0
+  m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.15294118, g: 0.15294118, b: 0.15294118, a: 1}
   m_Intensity: 1
   m_Range: 5.57
   m_SpotAngle: 30
@@ -30176,13 +30184,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738905702}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7955152, y: -0, z: -0, w: 0.6059337}
+  m_LocalRotation: {x: -0.31664, y: -0, z: -0, w: 0.9485458}
   m_LocalPosition: {x: -1217, y: 1824, z: 0.000061035156}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -105.408, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -36.92, y: 0, z: 0}
 --- !u!1001 &1739002217
 PrefabInstance:
   m_ObjectHideFlags: 0
