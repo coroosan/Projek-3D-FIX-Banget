@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: explodeDistance
-      value: 6.59
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4839031197784623077, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: m_Name
