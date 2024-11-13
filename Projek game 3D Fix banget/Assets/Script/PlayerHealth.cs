@@ -1,59 +1,106 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float playerHealth = 100f; // Kesehatan pemain awal
-    public Image healthImpact; // Gambar untuk menampilkan efek kesehatan
+    public float playerHealth = 100f; // Kesehatan awal pemain
+    public Image healthImpact; // Efek gambar kesehatan
 
-    // Start is called before the first frame update
-    void Start()
+    private SpawnRestartPlayer spawnManager; // Referensi ke skrip SpawnRestartPlayer
+    private Animator animator; // Animator untuk animasi Dead
+
+    private bool isDead = false; // Flag untuk memastikan animasi Dead hanya dipanggil sekali
+
+    private void Start()
     {
-        playerHealth = 100;
+        playerHealth = 100f;
         healthImpact.color = Color.red;
+
+        // Cari skrip SpawnRestartPlayer di scene
+        spawnManager = FindObjectOfType<SpawnRestartPlayer>();
+
+        // Mendapatkan komponen Animator (jika ada)
+        animator = GetComponent<Animator>();
     }
 
-    // Deteksi saat pemain bertabrakan dengan objek lain
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet")) // Jika terkena peluru
+        if (other.CompareTag("Bullet"))
         {
-            TakeDamage(10f); // Contoh damage dari peluru
-            Destroy(other.gameObject); // Hapus peluru setelah mengenai pemain
+            TakeDamage(10f);
+            Destroy(other.gameObject);
         }
-
-        if (other.CompareTag("Explode")) // Jika terkena ledakan
+        else if (other.CompareTag("Explode"))
         {
-            TakeDamage(25f); // Contoh damage dari ledakan
+            TakeDamage(25f);
         }
     }
 
-    void HealthDamageImpact()
+    private void HealthDamageImpact()
     {
         float transparency = 1f - (playerHealth / 100f);
         Color imageColor = Color.white;
         imageColor.a = transparency;
         healthImpact.color = imageColor;
-
-        Debug.Log("Player Health: " + playerHealth + ", Transparency: " + transparency);
     }
 
-    // Mengurangi kesehatan pemain - ubah aksesibilitas menjadi public
-    public void TakeDamage(float damage) // Ubah dari private menjadi public
+    public void TakeDamage(float damage)
     {
-        if (playerHealth > 0)
+        if (playerHealth > 0 && !isDead)
         {
             playerHealth -= damage;
-            playerHealth = Mathf.Max(playerHealth, 0); // Pastikan kesehatan tidak di bawah 0
-            Debug.Log("Player is taking damage, current health: " + playerHealth);
+            playerHealth = Mathf.Max(playerHealth, 0);
+            Debug.Log("Player Health: " + playerHealth);
+
+            if (playerHealth <= 0)
+            {
+                Die();
+            }
         }
     }
 
-    // Update is called once per frame 
-    void Update()
+    void Die()
     {
-        HealthDamageImpact(); // Perbarui efek gambar kesehatan
+        if (isDead) return; // Cegah pemanggilan ganda
+        isDead = true;
+        Debug.Log("Player Died!");
+
+        // Menjalankan animasi "Dead" jika ada
+        if (animator != null)
+        {
+            animator.SetTrigger("Dead");
+        }
+
+        // Mulai Coroutine untuk menunggu animasi selesai sebelum respawn
+        if (spawnManager != null)
+        {
+            StartCoroutine(WaitForDeadAnimation());
+        }
+    }
+
+    private void Update()
+    {
+        HealthDamageImpact();
+    }
+
+    public void ResetPlayerHealth()
+    {
+        playerHealth = 100f;
+        Debug.Log("Player Health Reset to: " + playerHealth);
+    }
+
+    // Coroutine untuk menunggu animasi selesai sebelum respawn
+    private IEnumerator WaitForDeadAnimation()
+    {
+        // Tunggu hingga animasi selesai (pastikan nama state benar sesuai dengan Animator Anda)
+        yield return new WaitForSeconds(1.5f); // Ganti 1.5f dengan durasi animasi "Dead" Anda
+
+        // Setelah animasi selesai, respawn dan reset kesehatan
+        spawnManager.RespawnPlayer();
+        ResetPlayerHealth();
+        HealthDamageImpact();
+
+        isDead = false; // Reset flag agar pemain bisa mati lagi nanti
     }
 }

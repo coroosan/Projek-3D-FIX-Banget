@@ -28,23 +28,31 @@ public class BulletController : MonoBehaviour
         damage = damageAmount;
     }
 
-    private void OnTriggerEnter(Collider other)
+private void OnTriggerEnter(Collider other)
     {
-        // Jika peluru mengenai musuh dengan komponen EnemyHealth
-        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-        if (enemyHealth != null)
+        if (other.CompareTag("Enemy") || other.CompareTag("Boss"))
         {
-            // Berikan damage ke musuh
-            enemyHealth.TakeDamage(damage);
+            // Jika yang terkena peluru adalah musuh
+            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damage);
+            }
 
-            // Buat efek saat peluru mengenai target
+            // Jika yang terkena peluru adalah boss
+            BossHealth bossHealth = other.GetComponent<BossHealth>();
+            if (bossHealth != null)
+            {
+                bossHealth.TakeDamage(damage);
+            }
+
             if (hitEffect != null)
             {
                 Instantiate(hitEffect, transform.position, Quaternion.identity);
             }
 
-            // Hancurkan peluru setelah mengenai target
             Destroy(gameObject);
         }
     }
+
 }

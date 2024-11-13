@@ -9,6 +9,7 @@ TagManager:
   - Explode
   - Bullet
   - Plane
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Player
   - RocketAera
   - Grround
-  - 
+  - cameraEffect
   - 
   - 
   - 
