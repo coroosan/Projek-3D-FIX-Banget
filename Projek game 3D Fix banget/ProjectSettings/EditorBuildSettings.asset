@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 83c26458481b01445b207109f65e49ad
   - enabled: 1
+    path: Assets/Scenes/tesMainMenu.unity
+    guid: 48a6c4b0f963de443924f636dca5b6a8
+  - enabled: 1
+    path: Assets/Scenes/Credit.unity
+    guid: d370c99410a9aa842b5f09b1f4d978f4
+  - enabled: 1
     path: Assets/Scenes/Stage level 1.unity
     guid: 4275699ddf2f19746aa3bbdaa8fe241c
   - enabled: 1
@@ -17,7 +23,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage Level 3.unity
     guid: 6c160b224f1fbb44d9039eae149800b6
-  - enabled: 1
-    path: Assets/Scenes/tesMainMenu.unity
-    guid: 48a6c4b0f963de443924f636dca5b6a8
   m_configObjects: {}
