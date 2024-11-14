@@ -24,7 +24,9 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPoint1; // Titik spawn pertama
     [SerializeField] private Transform bulletSpawnPoint2; // Titik spawn kedua
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private AudioClip explosionSoundClip; // Tambahkan AudioClip untuk suara ledakan
 
+    private AudioSource audioSource;
     private EnemyHealth enemyHealth;
 
     void Start()
@@ -33,6 +35,8 @@ public class EnemyControl : MonoBehaviour
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         enemyHealth = GetComponent<EnemyHealth>();
+        audioSource = GetComponent<AudioSource>();
+
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
 
@@ -151,8 +155,25 @@ public class EnemyControl : MonoBehaviour
         hasExploded = true;
 
         animator.SetTrigger("Dead");
+
+        // Mainkan suara ledakan sebanyak dua kali
+        if (explosionSoundClip != null)
+        {
+            StartCoroutine(PlayExplosionSoundTwice());
+        }
+
+        // Instansiasi efek ledakan
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+
         Destroy(gameObject, 1f); // Destroy after explosion
+    }
+
+    // Coroutine untuk memutar suara ledakan dua kali dengan jeda waktu
+    IEnumerator PlayExplosionSoundTwice()
+    {
+        audioSource.PlayOneShot(explosionSoundClip); // Mainkan suara ledakan pertama
+        yield return new WaitForSeconds(0.5f); // Jeda 0.5 detik sebelum suara kedua
+        audioSource.PlayOneShot(explosionSoundClip); // Mainkan suara ledakan kedua
     }
 
     void RotateTowards(Vector3 targetPosition)

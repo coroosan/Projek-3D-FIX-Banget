@@ -12,13 +12,30 @@ public class EnemyHealth : MonoBehaviour
     public EnemyType enemyType;
     public int health = 100;
     [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private AudioClip engineSoundClip; // AudioClip untuk suara mesin
     private Animator animator;
     private bool isDead = false;
     public bool IsDead => isDead;
+    private GameObject engineSoundObject;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+
+        // Pastikan suara mesin dimainkan jika HP lebih dari 0
+        if (engineSoundClip != null && health > 0)
+        {
+            // Buat GameObject baru untuk suara mesin agar bisa dihentikan nanti
+            engineSoundObject = new GameObject("EngineSound");
+            engineSoundObject.transform.position = transform.position;
+
+            // Tambahkan AudioSource ke engineSoundObject untuk memainkan AudioClip
+            var audioSource = engineSoundObject.AddComponent<AudioSource>();
+            audioSource.clip = engineSoundClip;
+            audioSource.loop = true; // Looping suara mesin
+            audioSource.spatialBlend = 1.0f; // Atur agar suara 3D
+            audioSource.Play();
+        }
     }
 
     public void TakeDamage(int damageAmount)
@@ -40,6 +57,12 @@ public class EnemyHealth : MonoBehaviour
 
         isDead = true;
         Debug.Log("Enemy has died.");
+
+        // Hentikan suara mesin jika musuh mati
+        if (engineSoundObject != null)
+        {
+            Destroy(engineSoundObject); // Hancurkan GameObject suara mesin untuk menghentikannya
+        }
 
         if (animator != null)
         {

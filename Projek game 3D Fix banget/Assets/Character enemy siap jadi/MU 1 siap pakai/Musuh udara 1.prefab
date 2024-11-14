@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: explodeDistance
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
+      propertyPath: explosionSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bcdbdf926f75bc04c98190df5ee11865, type: 3}
     - target: {fileID: 4839031197784623077, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: m_Name
       value: Musuh udara 1
@@ -101,6 +105,7 @@ MonoBehaviour:
   enemyType: 0
   health: 100
   explosionPrefab: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
+  engineSoundClip: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
 --- !u!65 &4724607236315030359
 BoxCollider:
   m_ObjectHideFlags: 0

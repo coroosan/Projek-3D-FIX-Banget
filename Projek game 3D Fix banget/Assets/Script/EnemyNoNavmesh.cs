@@ -22,6 +22,8 @@ public class EnemyWithNavMesh : MonoBehaviour
 
     [SerializeField]
     private GameObject explosionPrefab; // Prefab untuk efek ledakan
+    [SerializeField]
+    private AudioClip explosionSoundClip; // AudioClip untuk suara ledakan
     private bool hasExploded = false; // Menandakan apakah sudah meledak
     private EnemyHealth enemyHealth;
 
@@ -108,14 +110,25 @@ public class EnemyWithNavMesh : MonoBehaviour
 
     void Explode()
     {
-        if (explosionPrefab != null && !hasExploded)
+        if (!hasExploded)
         {
-            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(explosion, 2f); // Hancurkan objek ledakan setelah 2 detik
-        }
+            hasExploded = true; // Tandai bahwa ledakan sudah terjadi
 
-        hasExploded = true; // Tandai bahwa ledakan sudah terjadi
-        Destroy(gameObject); // Hancurkan musuh setelah meledak
+            // Mainkan suara ledakan satu kali
+            if (explosionSoundClip != null)
+            {
+                AudioSource.PlayClipAtPoint(explosionSoundClip, transform.position); // Memainkan suara ledakan di posisi musuh
+            }
+
+            // Instansiasi efek ledakan
+            if (explosionPrefab != null)
+            {
+                GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+                Destroy(explosion, 2f); // Hancurkan objek ledakan setelah 2 detik
+            }
+
+            Destroy(gameObject); // Hancurkan musuh setelah meledak
+        }
     }
 
     public void OnShot()
