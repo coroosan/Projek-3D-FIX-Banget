@@ -1408,6 +1408,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1090938351577643168, guid: 4759c874bb1122446962e40033da1082, type: 3}
+      propertyPath: explosionSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bcdbdf926f75bc04c98190df5ee11865, type: 3}
+    - target: {fileID: 1090938351577643168, guid: 4759c874bb1122446962e40033da1082, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -33946,6 +33950,10 @@ PrefabInstance:
       propertyPath: bulletSpawnPoint2
       value: 
       objectReference: {fileID: 2106735204}
+    - target: {fileID: 2819179097525650064, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+      propertyPath: explosionSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bcdbdf926f75bc04c98190df5ee11865, type: 3}
     - target: {fileID: 2819179097525650064, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 4
