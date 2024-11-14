@@ -1431,6 +1431,10 @@ PrefabInstance:
       propertyPath: enemyType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7156515412985704613, guid: 4759c874bb1122446962e40033da1082, type: 3}
+      propertyPath: engineSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
     - target: {fileID: 7184138336350638654, guid: 4759c874bb1122446962e40033da1082, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.41668436
@@ -4864,6 +4868,10 @@ PrefabInstance:
       propertyPath: patrolPoints.Array.data[3]
       value: 
       objectReference: {fileID: 1749892803}
+    - target: {fileID: 7156515412985704613, guid: 4759c874bb1122446962e40033da1082, type: 3}
+      propertyPath: engineSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
     - target: {fileID: 7184138336350638654, guid: 4759c874bb1122446962e40033da1082, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.41668436
