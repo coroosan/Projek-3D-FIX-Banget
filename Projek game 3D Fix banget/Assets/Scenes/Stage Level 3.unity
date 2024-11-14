@@ -15228,6 +15228,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: dc37a8759a6c2884ca867bd962bf2016, type: 3}
   m_PrefabInstance: {fileID: 865360272}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &866620747 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7653400776379549740, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+  m_PrefabInstance: {fileID: 1904419171}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &871076286 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6727681162645020960, guid: a4feeca4a93e93d4b8723f8cf8a633fd, type: 3}
@@ -33813,6 +33818,14 @@ PrefabInstance:
       value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 2819179097525650064, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+      propertyPath: bulletSpawnPoint1
+      value: 
+      objectReference: {fileID: 866620747}
+    - target: {fileID: 2819179097525650064, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+      propertyPath: bulletSpawnPoint2
+      value: 
+      objectReference: {fileID: 2106735204}
+    - target: {fileID: 2819179097525650064, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -38558,6 +38571,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2138796739762357153, guid: a4feeca4a93e93d4b8723f8cf8a633fd, type: 3}
+--- !u!4 &2106735204 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3069662241917659668, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+  m_PrefabInstance: {fileID: 1904419171}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2111212464 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3483068211074573027, guid: a4feeca4a93e93d4b8723f8cf8a633fd, type: 3}

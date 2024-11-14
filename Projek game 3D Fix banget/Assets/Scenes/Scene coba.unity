@@ -1138,6 +1138,11 @@ MonoBehaviour:
   footstepSound: {fileID: 8300000, guid: 0b656c9d328bff84e8e35c64d29e262d, type: 3}
   jumpSound: {fileID: 8300000, guid: f8ed57d24f9511149b5f9d8b19f9fa6b, type: 3}
   shootSound: {fileID: 8300000, guid: 91a6bb5d51cb0e8408dafb040d74b135, type: 3}
+--- !u!4 &1107869783 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 940786150791445433, guid: f430b9470a41db745972c8f0c268739b, type: 3}
+  m_PrefabInstance: {fileID: 422818981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1159642899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,7 +1402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 634df9d9bd1b7af4eb9f0d72acb9c484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1107869783}
   rotationSpeed: 5
   projectilePrefab: {fileID: 136330, guid: 2a3bec9c643ca9340bd77f8dbd5b98a7, type: 3}
   firePoint: {fileID: 784222264}
