@@ -33862,6 +33862,10 @@ PrefabInstance:
       propertyPath: enemyType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1528532896305555481, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+      propertyPath: engineSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
     - target: {fileID: 1931512872269209658, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
       propertyPath: m_LocalPosition.y
       value: 20.406973
@@ -38072,7 +38076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &2083295714
 AudioSource:
   m_ObjectHideFlags: 0
