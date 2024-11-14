@@ -1435,6 +1435,10 @@ PrefabInstance:
       propertyPath: engineSoundClip
       value: 
       objectReference: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
+    - target: {fileID: 7156515412985704613, guid: 4759c874bb1122446962e40033da1082, type: 3}
+      propertyPath: explosionSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 02abb111b1ec19f4e8595bdc1039049d, type: 3}
     - target: {fileID: 7184138336350638654, guid: 4759c874bb1122446962e40033da1082, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.41668436
@@ -9694,6 +9698,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MediumFlames (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1478314613700728, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4469749203399680, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
       propertyPath: m_LocalScale.x
       value: 185.9279
@@ -9938,6 +9946,10 @@ PrefabInstance:
     - target: {fileID: 1478314613700728, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
       propertyPath: m_Name
       value: MediumFlames
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478314613700728, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4469749203399680, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
       propertyPath: m_LocalScale.x
@@ -22548,6 +22560,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MediumFlames (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1478314613700728, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4469749203399680, guid: be6847dd39ab95f4daa2ed98e4f90564, type: 3}
       propertyPath: m_LocalScale.x
       value: 185.9279
@@ -28832,6 +28848,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6807178746394043725, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807178746394043725, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7609933260439599386, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: Priority
+      value: 189
+      objectReference: {fileID: 0}
+    - target: {fileID: 7609933260439599386, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: m_Volume
+      value: 0.044
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172975313052760535, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: shootSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 3f54e471fe98bda4d80d2515698effe9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33874,6 +33910,10 @@ PrefabInstance:
       propertyPath: engineSoundClip
       value: 
       objectReference: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
+    - target: {fileID: 1528532896305555481, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
+      propertyPath: explosionSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 02abb111b1ec19f4e8595bdc1039049d, type: 3}
     - target: {fileID: 1931512872269209658, guid: 631a7d49f9ba4f64cbdb5baf86f516f7, type: 3}
       propertyPath: m_LocalPosition.y
       value: 20.406973

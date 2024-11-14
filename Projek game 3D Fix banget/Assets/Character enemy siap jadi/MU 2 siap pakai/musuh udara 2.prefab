@@ -164,6 +164,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1538222047198062970}
   m_SourcePrefab: {fileID: 100100000, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
+--- !u!4 &920504936902364692 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8687654602523955308, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
+  m_PrefabInstance: {fileID: 8383157720873000568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5458590705289118663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4581914384706870719, guid: ea4ff3571def1364782091e2dcf7271c, type: 3}
@@ -198,8 +203,10 @@ MonoBehaviour:
   burstCount: 3
   agent: {fileID: 0}
   bulletPrefab: {fileID: 1469415003227005621, guid: df2f38b104e0d0449b836a274d1b1ab7, type: 3}
-  bulletSpawnPoint: {fileID: 147445000715291893}
+  bulletSpawnPoint1: {fileID: 920504936902364692}
+  bulletSpawnPoint2: {fileID: 5458590705289118663}
   explosionPrefab: {fileID: 1329845292236604, guid: 7947642302c1a514084c08e4f316ad7b, type: 3}
+  explosionSoundClip: {fileID: 8300000, guid: bcdbdf926f75bc04c98190df5ee11865, type: 3}
 --- !u!114 &1528532896305555481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +222,7 @@ MonoBehaviour:
   enemyType: 0
   health: 100
   explosionPrefab: {fileID: 1329845292236604, guid: 7947642302c1a514084c08e4f316ad7b, type: 3}
+  engineSoundClip: {fileID: 8300000, guid: a4275f1d6a6ef0949978ece86f09d98f, type: 3}
 --- !u!135 &5614988969483944984
 SphereCollider:
   m_ObjectHideFlags: 0
