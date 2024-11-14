@@ -6,13 +6,13 @@ public class PlayerHealth : MonoBehaviour
 {
     public float playerHealth = 100f; // Kesehatan awal pemain
     public Image healthImpact; // Efek gambar kesehatan
-
+    public Image deathUI;
     private SpawnRestartPlayer spawnManager; // Referensi ke skrip SpawnRestartPlayer
     private Animator animator; // Animator untuk animasi Dead
 
     private bool isDead = false; // Flag untuk memastikan animasi Dead hanya dipanggil sekali
 
-    private void Start()
+    void Start()
     {
         playerHealth = 100f;
         healthImpact.color = Color.red;
@@ -22,6 +22,12 @@ public class PlayerHealth : MonoBehaviour
 
         // Mendapatkan komponen Animator (jika ada)
         animator = GetComponent<Animator>();
+
+        // Menyembunyikan UI death pada awal permainan
+        if (deathUI != null)
+        {
+            deathUI.enabled = false; // Pastikan gambar UI kematian dimulai dalam keadaan tidak aktif
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -72,12 +78,20 @@ public class PlayerHealth : MonoBehaviour
             animator.SetTrigger("Dead");
         }
 
+        // Tampilkan gambar UI kematian
+        if (deathUI != null)
+        {
+            deathUI.enabled = true; // Menampilkan UI kematian
+            Debug.Log("Death UI enabled"); // Log untuk memastikan gambar UI diaktifkan
+        }
+
         // Mulai Coroutine untuk menunggu animasi selesai sebelum respawn
         if (spawnManager != null)
         {
             StartCoroutine(WaitForDeadAnimation());
         }
     }
+
 
     private void Update()
     {
@@ -93,13 +107,17 @@ public class PlayerHealth : MonoBehaviour
     // Coroutine untuk menunggu animasi selesai sebelum respawn
     private IEnumerator WaitForDeadAnimation()
     {
-        // Tunggu hingga animasi selesai (pastikan nama state benar sesuai dengan Animator Anda)
-        yield return new WaitForSeconds(1.5f); // Ganti 1.5f dengan durasi animasi "Dead" Anda
+        yield return new WaitForSeconds(1.5f); // Ganti durasi animasi "Dead" Anda
 
         // Setelah animasi selesai, respawn dan reset kesehatan
         spawnManager.RespawnPlayer();
         ResetPlayerHealth();
         HealthDamageImpact();
+
+        if (deathUI != null)
+        {
+            deathUI.enabled = false; // Menyembunyikan gambar UI kematian
+        }
 
         isDead = false; // Reset flag agar pemain bisa mati lagi nanti
     }

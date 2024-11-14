@@ -4,30 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(AudioSource))] // Memastikan AudioSource ada
+[RequireComponent(typeof(AudioSource))]
 public class FPSPlayerController : MonoBehaviour
 {
     public Camera playerCamera;
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
-    public float jumpHeight = 2f; // Tinggi lompatan
+    public float jumpHeight = 2f;
     public float gravity = 9.8f;
 
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
 
-    public Image crosshair; // Referensi ke Crosshair UI
+    public Image crosshair;
 
-    public float health = 100f; // Kesehatan pemain
-    public Animator animator; // Animator untuk mengatur animasi
+    public float health = 100f;
+    public Animator animator;
 
-    public AudioClip footstepSound; // Suara langkah kaki
-    public AudioClip shootSound; // Suara tembakan
-    public AudioClip jumpSound; // Suara lompatan
-    private AudioSource audioSource; // AudioSource untuk memainkan suara
+    public AudioClip footstepSound;
+    public AudioClip shootSound;
+    public AudioClip jumpSound;
+    public AudioClip deadSound;
+    private AudioSource audioSource;
 
-    Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0;
+    private Vector3 moveDirection = Vector3.zero;
+    private float rotationX = 0;
 
     public bool canMove = true;
     private float verticalVelocity = 0f;
@@ -38,25 +39,32 @@ public class FPSPlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        audioSource = GetComponent<AudioSource>(); // Mengambil referensi AudioSource
+        audioSource = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        animator = GetComponent<Animator>();
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
 
         // Set ukuran awal crosshair
-        SetCrosshairSize(50f); // Ukuran default
+        SetCrosshairSize(50f);
     }
 
     void Update()
     {
         if (health <= 0f)
         {
-            Die(); // Jika HP <= 0, maka pemain mati
-            return; // Menghentikan proses Update jika pemain mati
+            Die();
+            return;
         }
 
-        HandleMovement();
-        HandleJumping();
+        if (canMove)
+        {
+            HandleMovement();
+        }
+
         HandleRotation();
         HandleCrosshair();
     }
@@ -66,26 +74,22 @@ public class FPSPlayerController : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift); // Deteksi tombol Shift untuk berlari
-        bool isWalking = !isRunning && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0); // Deteksi jika sedang berjalan (bukan berlari)
+        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        bool isWalking = !isRunning && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0);
 
-        // Hitung kecepatan berjalan dan berlari
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
 
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        // Update parameter Animator untuk mengatur animasi berjalan atau berlari
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsWalking", isWalking);
 
-        // Memainkan suara langkah kaki saat berjalan atau berlari
         if (isWalking || isRunning)
         {
             PlayFootstepSound();
         }
 
-        // Tambahkan gravitasi manual
         if (characterController.isGrounded)
         {
             verticalVelocity = -gravity * Time.deltaTime;
@@ -94,21 +98,16 @@ public class FPSPlayerController : MonoBehaviour
             {
                 isJumping = true;
                 verticalVelocity = Mathf.Sqrt(jumpHeight * 2f * gravity);
-                PlayJumpSound(); // Mainkan suara lompatan
+                PlayJumpSound();
             }
         }
         else
         {
-            verticalVelocity -= gravity * Time.deltaTime; // Terapkan gravitasi saat tidak di tanah
+            verticalVelocity -= gravity * Time.deltaTime;
         }
 
         moveDirection.y = verticalVelocity;
         characterController.Move(moveDirection * Time.deltaTime);
-    }
-
-    void HandleJumping()
-    {
-        // Tidak ada perubahan di sini karena lompat sudah dikelola di HandleMovement()
     }
 
     void HandleRotation()
@@ -124,65 +123,73 @@ public class FPSPlayerController : MonoBehaviour
 
     void HandleCrosshair()
     {
-        // Menyembunyikan crosshair saat menembak
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && canMove)
         {
-            SetCrosshairSize(30f); // Ubah ukuran saat menembak
-            PlayShootSound(); // Mainkan suara tembakan
+            SetCrosshairSize(30f);
+            PlayShootSound();
         }
         else
         {
-            SetCrosshairSize(50f); // Ukuran default
+            SetCrosshairSize(50f);
         }
     }
 
     void SetCrosshairSize(float size)
     {
-        // Mengatur ukuran crosshair
         crosshair.rectTransform.sizeDelta = new Vector2(size, size);
     }
 
     void Die()
     {
-        // Memanggil trigger animasi 'Dead' jika pemain mati
         if (animator != null)
         {
-            animator.SetTrigger("Dead");
+            animator.SetBool("IsDead", true); // Set `IsDead` untuk transisi animasi mati
         }
 
-        // Nonaktifkan pergerakan player jika mati
-        canMove = false;
+        if (deadSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(deadSound);
+        }
 
-        // Hancurkan objek pemain setelah beberapa detik untuk memberi waktu pada animasi mati
-        Destroy(gameObject, 3f); // Hancurkan objek setelah 3 detik
+        canMove = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // Hancurkan objek pemain setelah beberapa detik
+        Destroy(gameObject, 3f);
     }
 
-    // Fungsi untuk menerima damage
     public void TakeDamage(float damage)
     {
         health -= damage;
 
         if (health <= 0f)
         {
-            Die(); // Jika HP habis, panggil metode mati
+            Die();
         }
     }
 
     void PlayFootstepSound()
     {
-        if (!audioSource.isPlaying) // Cek apakah suara sedang dimainkan
+        if (!audioSource.isPlaying && footstepSound != null)
         {
-            audioSource.PlayOneShot(footstepSound); // Mainkan suara langkah kaki
+            audioSource.PlayOneShot(footstepSound);
         }
     }
 
     void PlayShootSound()
     {
-        audioSource.PlayOneShot(shootSound); // Mainkan suara tembakan
+        if (shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
     }
 
     void PlayJumpSound()
     {
-        audioSource.PlayOneShot(jumpSound); // Mainkan suara lompatan
+        if (jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
+        }
     }
 }
