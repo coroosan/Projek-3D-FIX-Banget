@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(AudioSource))] // Memastikan AudioSource ada
 public class FPSPlayerController : MonoBehaviour
 {
     public Camera playerCamera;
@@ -20,6 +21,11 @@ public class FPSPlayerController : MonoBehaviour
     public float health = 100f; // Kesehatan pemain
     public Animator animator; // Animator untuk mengatur animasi
 
+    public AudioClip footstepSound; // Suara langkah kaki
+    public AudioClip shootSound; // Suara tembakan
+    public AudioClip jumpSound; // Suara lompatan
+    private AudioSource audioSource; // AudioSource untuk memainkan suara
+
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
@@ -32,6 +38,7 @@ public class FPSPlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>(); // Mengambil referensi AudioSource
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         animator = GetComponent<Animator>();
@@ -72,6 +79,12 @@ public class FPSPlayerController : MonoBehaviour
         animator.SetBool("IsRunning", isRunning);
         animator.SetBool("IsWalking", isWalking);
 
+        // Memainkan suara langkah kaki saat berjalan atau berlari
+        if (isWalking || isRunning)
+        {
+            PlayFootstepSound();
+        }
+
         // Tambahkan gravitasi manual
         if (characterController.isGrounded)
         {
@@ -81,6 +94,7 @@ public class FPSPlayerController : MonoBehaviour
             {
                 isJumping = true;
                 verticalVelocity = Mathf.Sqrt(jumpHeight * 2f * gravity);
+                PlayJumpSound(); // Mainkan suara lompatan
             }
         }
         else
@@ -114,6 +128,7 @@ public class FPSPlayerController : MonoBehaviour
         if (Input.GetButton("Fire1"))
         {
             SetCrosshairSize(30f); // Ubah ukuran saat menembak
+            PlayShootSound(); // Mainkan suara tembakan
         }
         else
         {
@@ -151,5 +166,23 @@ public class FPSPlayerController : MonoBehaviour
         {
             Die(); // Jika HP habis, panggil metode mati
         }
+    }
+
+    void PlayFootstepSound()
+    {
+        if (!audioSource.isPlaying) // Cek apakah suara sedang dimainkan
+        {
+            audioSource.PlayOneShot(footstepSound); // Mainkan suara langkah kaki
+        }
+    }
+
+    void PlayShootSound()
+    {
+        audioSource.PlayOneShot(shootSound); // Mainkan suara tembakan
+    }
+
+    void PlayJumpSound()
+    {
+        audioSource.PlayOneShot(jumpSound); // Mainkan suara lompatan
     }
 }
