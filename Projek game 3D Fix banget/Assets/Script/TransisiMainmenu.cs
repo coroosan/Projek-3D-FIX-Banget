@@ -10,7 +10,8 @@ public class SceneTransitionManager : MonoBehaviour
     public float fadeDuration = 1f;
 
     [Header("Stage Settings")]
-    public string nextSceneName;
+    public string nextSceneName; // Pastikan sama persis
+
 
     private void Start()
     {
@@ -18,11 +19,11 @@ public class SceneTransitionManager : MonoBehaviour
         if (fadeImage != null)
         {
             fadeImage.gameObject.SetActive(true);
-            fadeImage.color = new Color(0, 0, 0, 0); // Set transparent
+            fadeImage.color = new Color(0, 0, 0, 0); // Transparan
         }
     }
 
-    // Fungsi ini bisa dipanggil ketika trigger terpicu
+    // Metode yang akan dipanggil dari script lain
     public void TriggerSceneTransition()
     {
         StartCoroutine(TransitionToNextScene());
@@ -30,10 +31,10 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator TransitionToNextScene()
     {
-        // 1. Fade Out (Menuju ke hitam)
+        // Fade Out (menuju hitam)
         yield return StartCoroutine(FadeOut());
 
-        // 2. Ganti ke Stage Selanjutnya
+        // Ganti ke stage selanjutnya
         LoadNextStage();
     }
 

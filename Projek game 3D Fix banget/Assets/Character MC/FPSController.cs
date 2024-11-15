@@ -4,31 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))] // Memastikan AudioSource ada
 public class FPSPlayerController : MonoBehaviour
 {
     public Camera playerCamera;
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
-    public float jumpHeight = 2f;
+    public float jumpHeight = 2f; // Tinggi lompatan
     public float gravity = 9.8f;
 
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
 
-    public Image crosshair;
+    public Image crosshair; // Referensi ke Crosshair UI
 
-    public float health = 100f;
-    public Animator animator;
+    public AudioClip footstepSound; // Suara langkah kaki
+    public AudioClip shootSound; // Suara tembakan
+    public AudioClip jumpSound; // Suara lompatan
+    private AudioSource audioSource; // AudioSource untuk memainkan suara
 
-    public AudioClip footstepSound;
-    public AudioClip shootSound;
-    public AudioClip jumpSound;
-    public AudioClip deadSound;
-    private AudioSource audioSource;
-
-    private Vector3 moveDirection = Vector3.zero;
-    private float rotationX = 0;
+    Vector3 moveDirection = Vector3.zero;
+    float rotationX = 0;
 
     public bool canMove = true;
     private float verticalVelocity = 0f;
@@ -39,32 +35,17 @@ public class FPSPlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        audioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>(); // Mengambil referensi AudioSource
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (animator == null)
-        {
-            animator = GetComponent<Animator>();
-        }
-
         // Set ukuran awal crosshair
-        SetCrosshairSize(50f);
+        SetCrosshairSize(50f); // Ukuran default
     }
 
     void Update()
     {
-        if (health <= 0f)
-        {
-            Die();
-            return;
-        }
-
-        if (canMove)
-        {
-            HandleMovement();
-        }
-
+        HandleMovement();
         HandleRotation();
         HandleCrosshair();
     }
@@ -74,22 +55,21 @@ public class FPSPlayerController : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        bool isWalking = !isRunning && (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0);
+        bool isRunning = Input.GetKey(KeyCode.LeftShift); // Deteksi tombol Shift untuk berlari
 
+        // Hitung kecepatan berjalan dan berlari
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
 
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        animator.SetBool("IsRunning", isRunning);
-        animator.SetBool("IsWalking", isWalking);
-
-        if (isWalking || isRunning)
+        // Memainkan suara langkah kaki saat berjalan atau berlari
+        if (isRunning || Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
             PlayFootstepSound();
         }
 
+        // Tambahkan gravitasi manual
         if (characterController.isGrounded)
         {
             verticalVelocity = -gravity * Time.deltaTime;
@@ -98,12 +78,12 @@ public class FPSPlayerController : MonoBehaviour
             {
                 isJumping = true;
                 verticalVelocity = Mathf.Sqrt(jumpHeight * 2f * gravity);
-                PlayJumpSound();
+                PlayJumpSound(); // Mainkan suara lompatan
             }
         }
         else
         {
-            verticalVelocity -= gravity * Time.deltaTime;
+            verticalVelocity -= gravity * Time.deltaTime; // Terapkan gravitasi saat tidak di tanah
         }
 
         moveDirection.y = verticalVelocity;
@@ -123,73 +103,48 @@ public class FPSPlayerController : MonoBehaviour
 
     void HandleCrosshair()
     {
-        if (Input.GetButton("Fire1") && canMove)
+        // Menyembunyikan crosshair saat menembak
+        if (Input.GetButton("Fire1"))
         {
-            SetCrosshairSize(30f);
-            PlayShootSound();
+            SetCrosshairSize(30f); // Ubah ukuran saat menembak
+            PlayShootSound(); // Mainkan suara tembakan
         }
         else
         {
-            SetCrosshairSize(50f);
+            SetCrosshairSize(50f); // Ukuran default
         }
     }
 
     void SetCrosshairSize(float size)
     {
+        // Mengatur ukuran crosshair
         crosshair.rectTransform.sizeDelta = new Vector2(size, size);
     }
 
     void Die()
     {
-        if (animator != null)
-        {
-            animator.SetBool("IsDead", true); // Set `IsDead` untuk transisi animasi mati
-        }
-
-        if (deadSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(deadSound);
-        }
-
+        // Nonaktifkan pergerakan player jika mati
         canMove = false;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
 
-        // Hancurkan objek pemain setelah beberapa detik
-        Destroy(gameObject, 3f);
-    }
-
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
-
-        if (health <= 0f)
-        {
-            Die();
-        }
+        // Hancurkan objek pemain setelah beberapa detik untuk memberi waktu pada animasi mati
+        Destroy(gameObject, 3f); // Hancurkan objek setelah 3 detik
     }
 
     void PlayFootstepSound()
     {
-        if (!audioSource.isPlaying && footstepSound != null)
+        if (!audioSource.isPlaying) // Cek apakah suara sedang dimainkan
         {
-            audioSource.PlayOneShot(footstepSound);
+            audioSource.PlayOneShot(footstepSound); // Mainkan suara langkah kaki
         }
     }
 
     void PlayShootSound()
     {
-        if (shootSound != null)
-        {
-            audioSource.PlayOneShot(shootSound);
-        }
+        audioSource.PlayOneShot(shootSound); // Mainkan suara tembakan
     }
 
     void PlayJumpSound()
     {
-        if (jumpSound != null)
-        {
-            audioSource.PlayOneShot(jumpSound);
-        }
+        audioSource.PlayOneShot(jumpSound); // Mainkan suara lompatan
     }
 }

@@ -5,11 +5,10 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     public float playerHealth = 100f; // Kesehatan awal pemain
+    public Animation cameraAnimation; // Referensi ke komponen Animation kamera
     public Image healthImpact; // Efek gambar kesehatan
-    public Image deathUI;
+    public Image deathUI; // UI kematian
     private SpawnRestartPlayer spawnManager; // Referensi ke skrip SpawnRestartPlayer
-    private Animator animator; // Animator untuk animasi Dead
-
     private bool isDead = false; // Flag untuk memastikan animasi Dead hanya dipanggil sekali
 
     void Start()
@@ -19,9 +18,6 @@ public class PlayerHealth : MonoBehaviour
 
         // Cari skrip SpawnRestartPlayer di scene
         spawnManager = FindObjectOfType<SpawnRestartPlayer>();
-
-        // Mendapatkan komponen Animator (jika ada)
-        animator = GetComponent<Animator>();
 
         // Menyembunyikan UI death pada awal permainan
         if (deathUI != null)
@@ -45,6 +41,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void HealthDamageImpact()
     {
+        // Mengubah transparansi gambar healthImpact sesuai dengan health pemain
         float transparency = 1f - (playerHealth / 100f);
         Color imageColor = Color.white;
         imageColor.a = transparency;
@@ -72,10 +69,10 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Player Died!");
 
-        // Menjalankan animasi "Dead" jika ada
-        if (animator != null)
+        // Memicu animasi rotasi kamera langsung
+        if (cameraAnimation != null)
         {
-            animator.SetTrigger("Dead");
+            cameraAnimation.Play("DeathCamAnimation");  // Ganti dengan nama animasi yang sesuai
         }
 
         // Tampilkan gambar UI kematian
@@ -92,7 +89,6 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         HealthDamageImpact();
@@ -107,7 +103,7 @@ public class PlayerHealth : MonoBehaviour
     // Coroutine untuk menunggu animasi selesai sebelum respawn
     private IEnumerator WaitForDeadAnimation()
     {
-        yield return new WaitForSeconds(1.5f); // Ganti durasi animasi "Dead" Anda
+        yield return new WaitForSeconds(1.5f); // Ganti durasi animasi "Death" Anda
 
         // Setelah animasi selesai, respawn dan reset kesehatan
         spawnManager.RespawnPlayer();
