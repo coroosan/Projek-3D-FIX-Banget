@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: fa1b031748477fb4fad1248d97366e58, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -28869,6 +28869,14 @@ PrefabInstance:
       value: 0.044
       objectReference: {fileID: 0}
     - target: {fileID: 9172975313052760535, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: runSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172975313052760535, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: walkSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9172975313052760535, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
       propertyPath: shootSound
       value: 
       objectReference: {fileID: 8300000, guid: 3f54e471fe98bda4d80d2515698effe9, type: 3}
@@ -31152,7 +31160,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
+  m_Color: {r: 0.2905661, g: 0.2905661, b: 0.2905661, a: 1}
   m_Intensity: 1
   m_Range: 5.57
   m_SpotAngle: 30
