@@ -1,46 +1,49 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenuController : MonoBehaviour
 {
-    public string mainMenuName;
-    public GameObject pauseScreen; // Drag PausePanel ke sini di Inspector
-    public bool isPaused;
-
-    void Start()
-    {
-
-    }
-
+    [SerializeField] private GameObject pauseMenuUI;
+    private bool isPaused = false;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseUnPause();
+            if (isPaused)
+                ResumeGame();
+            else
+                PauseGame();
         }
     }
 
-    public void PauseUnPause()
+    public void ResumeGame()
     {
-        if (isPaused)
-        {
-            isPaused = false;
-            pauseScreen.SetActive(false);
-            Time.timeScale = 1f;
-        }
-
-        else
-        {
-            isPaused = true;
-            pauseScreen.SetActive(true);
-            Time.timeScale = 0f;
-        }
+        isPaused = false;
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f; // Resume game
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-    public void MainMenu()
+    public void PauseGame()
     {
-        
-        SceneManager.LoadScene(mainMenuName); // Ganti sesuai nama scene Main Menu
+        isPaused = true;
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f; // Pause game
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("tesMainMenu");
     }
 }

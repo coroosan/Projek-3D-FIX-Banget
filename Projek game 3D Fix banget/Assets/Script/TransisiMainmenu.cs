@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;  // Untuk akses ke VideoPlayer
 using System.Collections;
 
 public class SceneTransitionManager : MonoBehaviour
@@ -10,8 +11,8 @@ public class SceneTransitionManager : MonoBehaviour
     public float fadeDuration = 1f;
 
     [Header("Stage Settings")]
-    public string nextSceneName ; // Pastikan sama persis
-
+    public string nextSceneName; // Pastikan sama persis dengan nama scene Stage 1
+    public VideoPlayer videoPlayer; // Referensi ke VideoPlayer
 
     private void Start()
     {
@@ -20,6 +21,12 @@ public class SceneTransitionManager : MonoBehaviour
         {
             fadeImage.gameObject.SetActive(true);
             fadeImage.color = new Color(0, 0, 0, 0); // Transparan
+        }
+
+        // Menambahkan listener untuk event selesai video
+        if (videoPlayer != null)
+        {
+            videoPlayer.loopPointReached += OnVideoEnd; // Event ketika video selesai
         }
     }
 
@@ -60,5 +67,12 @@ public class SceneTransitionManager : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+    }
+
+    // Event handler untuk saat video selesai
+    private void OnVideoEnd(VideoPlayer vp)
+    {
+        // Mulai transisi setelah video selesai diputar
+        StartCoroutine(TransitionToNextScene());
     }
 }

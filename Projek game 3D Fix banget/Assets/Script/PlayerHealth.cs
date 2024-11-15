@@ -1,28 +1,30 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public float playerHealth = 100f; // Kesehatan awal pemain
-    public Animation cameraAnimation; // Referensi ke komponen Animation kamera
     public Image healthImpact; // Efek gambar kesehatan
-    public Image deathUI; // UI kematian
+    public GameObject deathUI; // UI kematian
     private SpawnRestartPlayer spawnManager; // Referensi ke skrip SpawnRestartPlayer
-    private bool isDead = false; // Flag untuk memastikan animasi Dead hanya dipanggil sekali
+    private bool isDead = false; // Flag untuk memastikan pemain mati hanya sekali
 
     void Start()
     {
         playerHealth = 100f;
-        healthImpact.color = Color.red;
 
         // Cari skrip SpawnRestartPlayer di scene
         spawnManager = FindObjectOfType<SpawnRestartPlayer>();
 
-        // Menyembunyikan UI death pada awal permainan
+        // Pastikan UI Death dan Health Impact dalam keadaan awal
         if (deathUI != null)
         {
-            deathUI.enabled = false; // Pastikan gambar UI kematian dimulai dalam keadaan tidak aktif
+            deathUI.SetActive(false); // UI Death dimulai dalam keadaan tidak aktif
+        }
+
+        if (healthImpact != null)
+        {
+            healthImpact.color = new Color(1, 0, 0, 0); // Transparansi penuh
         }
     }
 
@@ -39,13 +41,14 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private void HealthDamageImpact()
+    private void UpdateHealthImpact()
     {
-        // Mengubah transparansi gambar healthImpact sesuai dengan health pemain
-        float transparency = 1f - (playerHealth / 100f);
-        Color imageColor = Color.white;
-        imageColor.a = transparency;
-        healthImpact.color = imageColor;
+        // Mengubah transparansi healthImpact berdasarkan kesehatan pemain
+        if (healthImpact != null)
+        {
+            float transparency = 1f - (playerHealth / 100f);
+            healthImpact.color = new Color(1, 0, 0, transparency);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -53,8 +56,10 @@ public class PlayerHealth : MonoBehaviour
         if (playerHealth > 0 && !isDead)
         {
             playerHealth -= damage;
-            playerHealth = Mathf.Max(playerHealth, 0);
+            playerHealth = Mathf.Max(playerHealth, 0); // Pastikan kesehatan tidak di bawah 0
             Debug.Log("Player Health: " + playerHealth);
+
+            UpdateHealthImpact();
 
             if (playerHealth <= 0)
             {
@@ -63,68 +68,45 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void Die()
+    private void Die()
     {
         if (isDead) return;
         isDead = true;
         Debug.Log("Player Died!");
 
-        if (cameraAnimation != null)
+        if (deathUI != null)
         {
-            // Tambahkan animasi jika belum ada
-            if (cameraAnimation.GetClip("Cameradeath") == null)
-            {
-                cameraAnimation.AddClip(cameraAnimation.clip, "Cameradeath");
-            }
+            deathUI.SetActive(true); // Tampilkan UI Death
+            Time.timeScale = 0f; // Pause game
 
-            cameraAnimation.Play("Cameradeath");
+            // Aktifkan kursor
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
+    }
+
+    public void OnRetry()
+    {
+        if (spawnManager != null)
+        {
+            spawnManager.RespawnPlayer(); // Respawn pemain
+        }
+
+        playerHealth = 100f; // Reset kesehatan pemain
+        UpdateHealthImpact(); // Reset efek health impact
 
         if (deathUI != null)
         {
-            deathUI.enabled = true;
-            Debug.Log("Death UI enabled");
+            deathUI.SetActive(false); // Sembunyikan UI Death
         }
 
-        if (spawnManager != null)
-        {
-            StartCoroutine(WaitForDeadAnimation());
-        }
+        Time.timeScale = 1f; // Resume game
 
-        // Mulai Coroutine untuk menunggu animasi selesai sebelum respawn
-        if (spawnManager != null)
-        {
-            StartCoroutine(WaitForDeadAnimation());
-        }
+        // Kunci kembali kursor
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        isDead = false; // Reset flag mati
     }
 
-
-    private void Update()
-    {
-        HealthDamageImpact();
-    }
-
-    public void ResetPlayerHealth()
-    {
-        playerHealth = 100f;
-        Debug.Log("Player Health Reset to: " + playerHealth);
-    }
-
-    // Coroutine untuk menunggu animasi selesai sebelum respawn
-    private IEnumerator WaitForDeadAnimation()
-    {
-        yield return new WaitForSeconds(1.5f); // Ganti durasi animasi "Death" Anda
-
-        // Setelah animasi selesai, respawn dan reset kesehatan
-        spawnManager.RespawnPlayer();
-        ResetPlayerHealth();
-        HealthDamageImpact();
-
-        if (deathUI != null)
-        {
-            deathUI.enabled = false; // Menyembunyikan gambar UI kematian
-        }
-
-        isDead = false; // Reset flag agar pemain bisa mati lagi nanti
-    }
 }

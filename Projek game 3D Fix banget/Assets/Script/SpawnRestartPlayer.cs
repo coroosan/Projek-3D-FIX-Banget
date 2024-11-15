@@ -17,8 +17,34 @@ public class SpawnRestartPlayer : MonoBehaviour
     public void RespawnPlayer()
     {
         Debug.Log("Respawning player...");
-        player.transform.position = spawnPoint.position;
-        player.SetActive(true);  // Pastikan pemain diaktifkan
+
+        if (spawnPoint != null && player != null)
+        {
+            // Cek apakah player memiliki CharacterController
+            CharacterController characterController = player.GetComponent<CharacterController>();
+
+            if (characterController != null)
+            {
+                // Pindahkan posisi menggunakan Move() jika ada CharacterController
+                player.transform.position = spawnPoint.position;
+                characterController.enabled = false;  // Nonaktifkan CharacterController sementara
+                player.transform.position = spawnPoint.position;  // Set posisi lagi setelah nonaktifkan controller
+                characterController.enabled = true;   // Aktifkan kembali CharacterController
+            }
+            else
+            {
+                // Jika tidak ada CharacterController, set posisi langsung
+                player.transform.position = spawnPoint.position;
+            }
+
+            // Debug posisi setelah respawn
+            Debug.Log("Player position after respawn: " + player.transform.position);
+        }
+        else
+        {
+            Debug.LogError("SpawnPoint or Player is not set correctly!");
+        }
     }
+
 }
 
