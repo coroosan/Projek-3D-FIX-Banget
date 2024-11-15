@@ -65,21 +65,30 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return; // Cegah pemanggilan ganda
+        if (isDead) return;
         isDead = true;
         Debug.Log("Player Died!");
 
-        // Memicu animasi rotasi kamera langsung
         if (cameraAnimation != null)
         {
-            cameraAnimation.Play("DeathCamAnimation");  // Ganti dengan nama animasi yang sesuai
+            // Tambahkan animasi jika belum ada
+            if (cameraAnimation.GetClip("Cameradeath") == null)
+            {
+                cameraAnimation.AddClip(cameraAnimation.clip, "Cameradeath");
+            }
+
+            cameraAnimation.Play("Cameradeath");
         }
 
-        // Tampilkan gambar UI kematian
         if (deathUI != null)
         {
-            deathUI.enabled = true; // Menampilkan UI kematian
-            Debug.Log("Death UI enabled"); // Log untuk memastikan gambar UI diaktifkan
+            deathUI.enabled = true;
+            Debug.Log("Death UI enabled");
+        }
+
+        if (spawnManager != null)
+        {
+            StartCoroutine(WaitForDeadAnimation());
         }
 
         // Mulai Coroutine untuk menunggu animasi selesai sebelum respawn
@@ -88,6 +97,7 @@ public class PlayerHealth : MonoBehaviour
             StartCoroutine(WaitForDeadAnimation());
         }
     }
+
 
     private void Update()
     {

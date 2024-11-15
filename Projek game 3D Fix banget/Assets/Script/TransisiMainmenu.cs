@@ -10,7 +10,7 @@ public class SceneTransitionManager : MonoBehaviour
     public float fadeDuration = 1f;
 
     [Header("Stage Settings")]
-    public string nextSceneName; // Pastikan sama persis
+    public string nextSceneName ; // Pastikan sama persis
 
 
     private void Start()
