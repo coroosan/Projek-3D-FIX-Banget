@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/cutscene 1.unity
     guid: efe1d8f01c6b3424db9c56750f1637e9
   - enabled: 1
+    path: Assets/Scenes/tesMainMenu.unity
+    guid: 48a6c4b0f963de443924f636dca5b6a8
+  - enabled: 1
+    path: Assets/Scenes/Credit.unity
+    guid: d370c99410a9aa842b5f09b1f4d978f4
+  - enabled: 1
     path: Assets/Scenes/Stage level 1.unity
     guid: 4275699ddf2f19746aa3bbdaa8fe241c
   - enabled: 1
