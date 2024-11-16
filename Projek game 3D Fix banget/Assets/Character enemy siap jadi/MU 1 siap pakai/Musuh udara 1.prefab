@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: detectionRadius
-      value: 120
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 2665151273952393153, guid: be371bf5f3d261b4d8e18d2eff99c619, type: 3}
       propertyPath: explodeDistance

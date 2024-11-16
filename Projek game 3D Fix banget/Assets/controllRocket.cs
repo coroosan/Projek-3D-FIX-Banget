@@ -5,9 +5,12 @@ public class RocketControll : MonoBehaviour
     public float fallSpeed = 50f; // Kecepatan roket jatuh vertikal
     public float rotationSpeed = 200f; // Kecepatan rotasi saat jatuh
     public GameObject explosionEffect; // Prefab efek ledakan
+    public AudioClip explosionSFX; // Audio ledakan
     public int damage = 20; // Damage yang akan diberikan
     public float explosionDuration = 2f; // Durasi efek ledakan sebelum dihancurkan
+
     private Rigidbody rb; // Rigidbody untuk fisika
+    private AudioSource audioSource; // AudioSource untuk memutar SFX
 
     void Start()
     {
@@ -28,6 +31,10 @@ public class RocketControll : MonoBehaviour
 
         // Set rotasi roket agar menghadap ke bawah
         transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+
+        // Menambahkan komponen AudioSource jika belum ada
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false; // Tidak otomatis diputar
     }
 
     void Update()
@@ -63,8 +70,15 @@ public class RocketControll : MonoBehaviour
             Destroy(explosion, explosionDuration);
         }
 
+        // Memutar SFX ledakan
+        if (explosionSFX != null && audioSource != null)
+        {
+            audioSource.clip = explosionSFX;
+            audioSource.Play();
+        }
+
         // Hancurkan roket setelah meledak
-        Destroy(gameObject);
+        Destroy(gameObject, explosionSFX.length); // Tunggu hingga SFX selesai diputar
     }
 
     void ApplyDamage(GameObject target)
