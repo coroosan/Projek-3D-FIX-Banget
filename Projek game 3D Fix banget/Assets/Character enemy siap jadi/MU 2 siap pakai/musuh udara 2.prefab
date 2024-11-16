@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d5d79b81bcd5842b13bd2d8ba5b7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 3
+  currentState: 0
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -202,7 +202,7 @@ MonoBehaviour:
   explosionDistance: 8
   burstCount: 3
   agent: {fileID: 0}
-  bulletPrefab: {fileID: 1469415003227005621, guid: df2f38b104e0d0449b836a274d1b1ab7, type: 3}
+  bulletPrefab: {fileID: 1975959190090480, guid: 91b680d9eb829e646be484b30bb2f712, type: 3}
   bulletSpawnPoint1: {fileID: 920504936902364692}
   bulletSpawnPoint2: {fileID: 5458590705289118663}
   explosionPrefab: {fileID: 1329845292236604, guid: 7947642302c1a514084c08e4f316ad7b, type: 3}
