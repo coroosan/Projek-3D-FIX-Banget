@@ -34,7 +34,7 @@ public class EnemyControl : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         enemyHealth = GetComponent<EnemyHealth>();
         currentState = EnemyState.Patrol;
-        currentPatrolIndex = 0;
+        currentPatrolIndex = 0; // Mulai dari titik patrol pertama
 
         GoToNextPatrolPoint();
     }
@@ -84,12 +84,23 @@ public class EnemyControl : MonoBehaviour
         if (agent == null || !agent.isOnNavMesh) return; // Pastikan agent ada dan berada di NavMesh
 
         if (patrolPoints.Length == 0) return;
-        agent.speed = patrolSpeed;
-        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
 
-        if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) < 1f)
-            GoToNextPatrolPoint();
+        agent.speed = patrolSpeed;
+
+        // Jika hanya ada 2 titik patroli, cukup pilih titik pertama dan kedua saja
+        if (patrolPoints.Length == 2)
+        {
+            // Tentukan titik tujuan patroli berdasarkan currentPatrolIndex
+            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+
+            // Cek apakah sudah mendekati titik patrol, jika iya, pindah ke titik berikutnya
+            if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) < 2f) // Gunakan jarak yang lebih besar
+            {
+                GoToNextPatrolPoint();
+            }
+        }
     }
+
 
     void Chase()
     {
@@ -165,7 +176,12 @@ public class EnemyControl : MonoBehaviour
 
     void GoToNextPatrolPoint()
     {
-        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
-        agent.destination = patrolPoints[currentPatrolIndex].position;
+        // Pastikan kita hanya bergantian antara titik pertama (0) dan kedua (1)
+        if (patrolPoints.Length == 2)
+        {
+            // Bergantian antara 0 dan 1
+            currentPatrolIndex = (currentPatrolIndex == 0) ? 1 : 0;
+            agent.destination = patrolPoints[currentPatrolIndex].position; // Set tujuan baru
+        }
     }
 }
