@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;  // Import untuk SceneManager
 
 public class BossHealth : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class BossHealth : MonoBehaviour
     public GameObject explosionPrefab; // Prefab untuk efek ledakan
 
     private Animator animator;
+
+    [Header("Cutscene Settings")]
+    public string cutsceneSceneName = "CutsceneScene"; // Nama scene cutscene
 
     public bool IsDead => currentHealth <= 0;
 
@@ -93,6 +97,25 @@ public class BossHealth : MonoBehaviour
     {
         // Tunggu durasi animasi kematian sebelum menghilangkan boss
         yield return new WaitForSeconds(2f);
-        gameObject.SetActive(false); // Nonaktifkan boss
+
+        // Mulai proses loading scene secara asinkron
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(cutsceneSceneName);
+
+        // Pastikan scene sudah mulai dimuat
+        while (!asyncLoad.isDone)
+        {
+            yield return null;  // Tunggu sampai loading selesai
+        }
+
+        // Nonaktifkan GameObject setelah scene selesai dimuat
+        gameObject.SetActive(false);
+    }
+
+
+    private IEnumerator TriggerCutscene()
+    {
+        yield return new WaitForSeconds(1f);  // Menunggu sebentar untuk efek ledakan selesai
+        gameObject.SetActive(false); // Menonaktifkan GameObject setelah scene berpindah
+        SceneManager.LoadScene(cutsceneSceneName);  // Pindah ke scene cutscene
     }
 }

@@ -29,6 +29,7 @@ public class FPSPlayerController : MonoBehaviour
     public bool canMove = true;
     private float verticalVelocity = 0f;
     private bool isJumping = false;
+    public EnergyWeaponWithSlider energyWeapon; // Drag and drop objek yang memiliki skrip EnergyWeaponWithSlider
 
     CharacterController characterController;
 
@@ -106,14 +107,28 @@ public class FPSPlayerController : MonoBehaviour
         // Menyembunyikan crosshair saat menembak
         if (Input.GetButton("Fire1"))
         {
-            SetCrosshairSize(30f); // Ubah ukuran saat menembak
-            PlayShootSound(); // Mainkan suara tembakan
+            // Cek apakah energyWeapon tidak null dan bisa menembak
+            if (energyWeapon != null && energyWeapon.canShoot)
+            {
+                // Kurangi energi saat menembak
+                energyWeapon.Shoot(); // Fungsi tembakan pada skrip EnergyWeaponWithSlider
+
+                SetCrosshairSize(30f); // Ubah ukuran saat menembak
+                PlayShootSound(); // Mainkan suara tembakan
+            }
+            else
+            {
+                // Jika tidak bisa menembak, set crosshair ke ukuran normal
+                SetCrosshairSize(50f); // Ukuran default
+            }
         }
         else
         {
-            SetCrosshairSize(50f); // Ukuran default
+            SetCrosshairSize(50f); // Ukuran default jika tidak menembak
         }
     }
+
+
 
     void SetCrosshairSize(float size)
     {
