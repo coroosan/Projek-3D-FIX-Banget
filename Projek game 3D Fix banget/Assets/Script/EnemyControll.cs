@@ -21,8 +21,8 @@ public class EnemyControl : MonoBehaviour
     private Animator animator;
 
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform bulletSpawnPoint1; // Titik spawn pertama
-    [SerializeField] private Transform bulletSpawnPoint2; // Titik spawn kedua
+    [SerializeField] private Transform bulletSpawnPoint1;
+    [SerializeField] private Transform bulletSpawnPoint2;
     [SerializeField] private GameObject explosionPrefab;
 
     private EnemyHealth enemyHealth;
@@ -34,9 +34,13 @@ public class EnemyControl : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         enemyHealth = GetComponent<EnemyHealth>();
         currentState = EnemyState.Patrol;
-        currentPatrolIndex = 0; // Mulai dari titik patrol pertama
+        currentPatrolIndex = 0;
 
-        GoToNextPatrolPoint();
+        // Cek apakah NavMeshAgent valid
+        if (agent != null && agent.isOnNavMesh)
+        {
+            GoToNextPatrolPoint();
+        }
     }
 
     void Update()
@@ -44,11 +48,15 @@ public class EnemyControl : MonoBehaviour
         if (hasExploded || player == null || agent == null || animator == null) return;
 
         float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-        currentState = DetermineState(distanceToPlayer);
-        UpdateState(distanceToPlayer);
+
+        // Cek apakah agent berada pada NavMesh sebelum melanjutkan
+        if (agent.isOnNavMesh)
+        {
+            currentState = DetermineState(distanceToPlayer);
+            UpdateState(distanceToPlayer);
+        }
     }
 
-    // Tambahkan fungsi DetermineState di sini
     EnemyState DetermineState(float distanceToPlayer)
     {
         if (distanceToPlayer <= explosionDistance) return EnemyState.Explode;
@@ -81,36 +89,37 @@ public class EnemyControl : MonoBehaviour
 
     void Patrol()
     {
-        if (agent == null || !agent.isOnNavMesh) return; // Pastikan agent ada dan berada di NavMesh
+        // Cek apakah agent valid dan berada di NavMesh
+        if (agent == null || !agent.isOnNavMesh) return;
 
         if (patrolPoints.Length == 0) return;
 
         agent.speed = patrolSpeed;
 
-        // Jika hanya ada 2 titik patroli, cukup pilih titik pertama dan kedua saja
-        if (patrolPoints.Length == 2)
+        // Jika sudah dekat dengan titik patrol, pergi ke titik berikutnya
+        if (!agent.pathPending && agent.remainingDistance <= 0.5f)
         {
-            // Tentukan titik tujuan patroli berdasarkan currentPatrolIndex
-            agent.SetDestination(patrolPoints[currentPatrolIndex].position);
-
-            // Cek apakah sudah mendekati titik patrol, jika iya, pindah ke titik berikutnya
-            if (Vector3.Distance(transform.position, patrolPoints[currentPatrolIndex].position) < 2f) // Gunakan jarak yang lebih besar
-            {
-                GoToNextPatrolPoint();
-            }
+            GoToNextPatrolPoint();
         }
     }
 
+    void GoToNextPatrolPoint()
+    {
+        if (patrolPoints.Length == 0 || agent == null || !agent.isOnNavMesh) return;
+
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+    }
 
     void Chase()
     {
+        if (agent == null || !agent.isOnNavMesh) return;
         agent.speed = chaseSpeed;
         agent.destination = player.position;
     }
 
     void HandleShooting()
     {
-        // Cek apakah musuh sudah mati
         if (hasExploded || (enemyHealth != null && enemyHealth.IsDead))
         {
             animator.SetBool("Shoot", false);
@@ -126,7 +135,7 @@ public class EnemyControl : MonoBehaviour
             {
                 Shoot();
                 burstShotsFired++;
-                nextBurstShotTime = Time.time + 0.5f; // Delay per shot
+                nextBurstShotTime = Time.time + 0.5f;
             }
         }
         else
@@ -140,10 +149,8 @@ public class EnemyControl : MonoBehaviour
 
     void Shoot()
     {
-        // Cek apakah musuh sudah mati sebelum menembak
         if (hasExploded || (enemyHealth != null && enemyHealth.IsDead)) return;
 
-        // Menembak dari dua titik spawn
         ShootFromPoint(bulletSpawnPoint1);
         ShootFromPoint(bulletSpawnPoint2);
     }
@@ -163,7 +170,7 @@ public class EnemyControl : MonoBehaviour
 
         animator.SetTrigger("Dead");
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject, 1f); // Destroy after explosion
+        Destroy(gameObject, 1f);
     }
 
     void RotateTowards(Vector3 targetPosition)
@@ -172,16 +179,5 @@ public class EnemyControl : MonoBehaviour
         direction.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-    }
-
-    void GoToNextPatrolPoint()
-    {
-        // Pastikan kita hanya bergantian antara titik pertama (0) dan kedua (1)
-        if (patrolPoints.Length == 2)
-        {
-            // Bergantian antara 0 dan 1
-            currentPatrolIndex = (currentPatrolIndex == 0) ? 1 : 0;
-            agent.destination = patrolPoints[currentPatrolIndex].position; // Set tujuan baru
-        }
     }
 }
