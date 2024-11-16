@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;  // Tambahkan untuk menggunakan Slider
 
 public class EnergyWeaponWithSlider : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class EnergyWeaponWithSlider : MonoBehaviour
     public float energyCooldownTime = 5f;   // Waktu cooldown energi
     public float energyRegenRate = 10f;    // Laju regenerasi energi
 
+    public Slider energySlider; // Referensi ke UI Slider
     public delegate void ShootEventHandler(); // Event untuk tembakan
     public event ShootEventHandler OnShoot; // Event untuk menembak
 
     void Start()
     {
         currentEnergy = maxEnergy; // Set energi awal ke maksimal
+        UpdateEnergySlider();  // Update slider saat mulai
     }
 
     public void Shoot()
@@ -24,6 +27,9 @@ public class EnergyWeaponWithSlider : MonoBehaviour
         {
             currentEnergy -= energyUsagePerShot;
             Debug.Log("Energi saat ini: " + currentEnergy);
+
+            // Perbarui slider energi
+            UpdateEnergySlider();
 
             if (currentEnergy <= 0)
             {
@@ -48,11 +54,21 @@ public class EnergyWeaponWithSlider : MonoBehaviour
         while (currentEnergy < maxEnergy)
         {
             currentEnergy += energyRegenRate * Time.deltaTime;
-            currentEnergy = Mathf.Min(currentEnergy, maxEnergy);
+            currentEnergy = Mathf.Min(currentEnergy, maxEnergy); // Jangan lebih dari maksimal
+            UpdateEnergySlider(); // Perbarui slider saat regenerasi
             yield return null;
         }
 
         canShoot = true;
         Debug.Log("Energi pulih, siap menembak!");
+    }
+
+    // Fungsi untuk memperbarui slider energi
+    void UpdateEnergySlider()
+    {
+        if (energySlider != null)
+        {
+            energySlider.value = currentEnergy / maxEnergy; // Update slider dengan proporsi energi saat ini
+        }
     }
 }

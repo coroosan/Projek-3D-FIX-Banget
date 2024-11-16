@@ -10090,6 +10090,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5194734552300995335, guid: 3052b91ae69654d46a7f8980273a4eec, type: 3}
+--- !u!1 &578321323 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6158233002463617582, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+  m_PrefabInstance: {fileID: 1617850311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &578520669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25653,6 +25658,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1703449797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1325077494 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 903257483014025288, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+  m_PrefabInstance: {fileID: 1617850311}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c491c79b1530a16458b633c12353c6a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1336240234 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 21aeb363ccf804e4e934025b9a5b7cca, type: 3}
@@ -28564,6 +28580,18 @@ PrefabInstance:
     - target: {fileID: 2322553328940805644, guid: 396b705c11020e74fa28be2c39802fcd, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2642004770871471406, guid: 396b705c11020e74fa28be2c39802fcd, type: 3}
+      propertyPath: maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2642004770871471406, guid: 396b705c11020e74fa28be2c39802fcd, type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
+    - target: {fileID: 2642004770871471406, guid: 396b705c11020e74fa28be2c39802fcd, type: 3}
+      propertyPath: cutsceneSceneName
+      value: EndingGame
       objectReference: {fileID: 0}
     - target: {fileID: 3727615367324533236, guid: 396b705c11020e74fa28be2c39802fcd, type: 3}
       propertyPath: m_LocalScale.x
@@ -31497,6 +31525,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 883120228207433781, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: energyWeapon
+      value: 
+      objectReference: {fileID: 1325077494}
+    - target: {fileID: 903257483014025288, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: maxEnergy
+      value: 337.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 903257483014025288, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: energyRegenRate
+      value: 131.17
+      objectReference: {fileID: 0}
     - target: {fileID: 1128685412928481812, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
       propertyPath: m_Height
       value: 11.37
@@ -31594,6 +31634,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 3f54e471fe98bda4d80d2515698effe9, type: 3}
     - target: {fileID: 9172975313052760535, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      propertyPath: energyWeapon
+      value: 
+      objectReference: {fileID: 1325077494}
+    - target: {fileID: 9172975313052760535, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
       propertyPath: footstepSound
       value: 
       objectReference: {fileID: 8300000, guid: 7dc697f005d4a0148b75c63d7316c899, type: 3}
@@ -31603,7 +31647,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 471815891949549128, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 54060166}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6158233002463617582, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2032618228}
   m_SourcePrefab: {fileID: 100100000, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
 --- !u!1 &1624607170 stripped
 GameObject:
@@ -40026,6 +40073,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6684248136200282326, guid: 97005d30374bf274798bf0fed06df85c, type: 3}
   m_PrefabInstance: {fileID: 1617850311}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2032618228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 578321323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c491c79b1530a16458b633c12353c6a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyUsagePerShot: 10
+  maxEnergy: 100
+  currentEnergy: 0
+  canShoot: 1
+  energyCooldownTime: 2
+  energyRegenRate: 5
+  energySlider: {fileID: 0}
 --- !u!1 &2037446882
 GameObject:
   m_ObjectHideFlags: 0
