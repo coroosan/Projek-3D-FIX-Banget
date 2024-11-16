@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: e128b08d52bc3c940a2d37de847adeba, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 3.177185
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e128b08d52bc3c940a2d37de847adeba, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 3.177185
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e128b08d52bc3c940a2d37de847adeba, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 3.177185
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e128b08d52bc3c940a2d37de847adeba, type: 3}
       propertyPath: m_LocalPosition.x
@@ -167,10 +167,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e3c48735f24394992d139d7ba53694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeed: 28.4
+  fallSpeed: 220
   rotationSpeed: 100
   explosionEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
-  damage: 20
+  explosionSFX: {fileID: 8300000, guid: bcdbdf926f75bc04c98190df5ee11865, type: 3}
+  damage: 50
+  explosionDuration: 2
 --- !u!54 &2449045025212364318
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -217,5 +219,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.5302235, z: 6.7331715}
-  m_Center: {x: 0, y: -0.021535575, z: 0.016139269}
+  m_Size: {x: 6.2900395, y: 6.4825478, z: 6.733172}
+  m_Center: {x: -0.11879743, y: 0.5145476, z: 0.016139181}
