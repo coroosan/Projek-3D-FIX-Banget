@@ -428,6 +428,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d3cd43cac6c0c174694cb3400ccadc45, type: 3}
   m_PrefabInstance: {fileID: 905418}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &475003897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 475003900}
+  - component: {fileID: 475003899}
+  - component: {fileID: 475003898}
+  m_Layer: 0
+  m_Name: area roket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &475003898
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475003897}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 37.390564, y: 1, z: 11.382996}
+  m_Center: {x: 6.5628967, y: 0, z: -5.191498}
+--- !u!114 &475003899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475003897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6d3b5d59b0aaf45af83e016c691a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rocketPrefab: {fileID: 4546665154930565330, guid: 3a3b9b9f3d2082f4e8befe8cb6529f3f, type: 3}
+  spawnHeight: 10
+  numberOfRockets: 20
+  spawnInterval: 1
+--- !u!4 &475003900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475003897}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 427.72455, y: 0, z: 375.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &654133235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,6 +1540,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7564076415264639108, guid: 4759c874bb1122446962e40033da1082, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3175854862941121042, guid: f430b9470a41db745972c8f0c268739b, type: 3}
@@ -1624,3 +1698,4 @@ SceneRoots:
   - {fileID: 6360001485768309189}
   - {fileID: 905418}
   - {fileID: 7881133680905009502}
+  - {fileID: 475003900}
