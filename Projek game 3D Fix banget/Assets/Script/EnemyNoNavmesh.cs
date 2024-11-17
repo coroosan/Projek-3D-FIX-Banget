@@ -34,7 +34,7 @@ public class EnemyWithNavMesh : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         currentState = EnemyState.Patrol;
         currentPatrolIndex = 0;
-        GoToNextPatrolPoint();
+        GoToNextPatrolPoint();  
     }
 
     void Update()
@@ -135,6 +135,31 @@ public class EnemyWithNavMesh : MonoBehaviour
     {
         isTriggeredByShot = true;
     }
+
+    public void Respawn()
+    {
+        // Reset health musuh
+        if (enemyHealth != null)
+        {
+            enemyHealth.ResetHealth(100);
+        }
+
+        // Reset posisi dan status musuh
+        hasExploded = false;
+        isTriggeredByShot = false;
+        currentState = EnemyState.Patrol;
+
+        if (patrolPoints.Length > 0)
+        {
+            transform.position = patrolPoints[0].position;
+            agent.Warp(transform.position); // Reset posisi NavMeshAgent
+        }
+
+        gameObject.SetActive(true);
+        GoToNextPatrolPoint();
+        Debug.Log($"{gameObject.name} has respawned.");
+    }
+
 
     void OnDrawGizmosSelected()
     {

@@ -8,27 +8,19 @@ public class BackgroundMusic : MonoBehaviour
 
     void Awake()
     {
-        // Jika sudah ada instance lain, hapus objek ini
-        if (instance != null)
+        // Mencegah duplikasi Audio Manager
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // Agar musik tetap ada ketika pindah scene
+            return;
         }
 
+        // Menetapkan instance dan mencegah penghancuran object
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Mendapatkan komponen AudioSource
         audioSource = GetComponent<AudioSource>();
-    }
-
-    void Start()
-    {
-        // Memastikan AudioSource ada dan teratur
-        if (audioSource != null && !audioSource.isPlaying)
-        {
-            audioSource.Play();
-        }
     }
 
     void OnEnable()
@@ -39,21 +31,28 @@ public class BackgroundMusic : MonoBehaviour
 
     void OnDisable()
     {
-        // Menghapus listener saat objek dihancurkan
+        // Menghapus listener saat object dihancurkan
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // Fungsi ini dipanggil setiap kali scene baru dimuat
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Jika sudah masuk ke scene selain main menu, hentikan musik
-        if (scene.name != "MainMenu") // Ganti "MainMenu" dengan nama scene menu Anda
+        // Memeriksa nama scene
+        if (scene.name == "MainMenu") // Ganti "MainMenu" sesuai dengan nama scene Main Menu Anda
         {
-            if (audioSource.isPlaying)
+            // Memutar musik jika berada di Main Menu
+            if (audioSource != null && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            // Menghentikan musik di scene lain
+            if (audioSource != null && audioSource.isPlaying)
             {
                 audioSource.Stop();
             }
-            Destroy(gameObject); // Hapus objek musik setelah berhenti
         }
     }
 }

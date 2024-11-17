@@ -10,7 +10,7 @@ public enum EnemyType
 public class EnemyHealth : MonoBehaviour
 {
     public EnemyType enemyType;
-    public int health = 100;
+    public int health = 100; // Kesehatan awal
     [SerializeField] private GameObject explosionPrefab;
     [SerializeField] private AudioClip engineSoundClip; // AudioClip untuk suara mesin
     private Animator animator;
@@ -38,6 +38,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+    // Fungsi untuk mengambil damage
     public void TakeDamage(int damageAmount)
     {
         if (isDead) return;
@@ -49,6 +50,14 @@ public class EnemyHealth : MonoBehaviour
         {
             Die();
         }
+    }
+
+    // Fungsi untuk mengatur ulang health saat respawn
+    public void ResetHealth(int newHealth)
+    {
+        health = newHealth;  // Reset kesehatan ke newHealth (misalnya 100)
+        isDead = false;
+        Debug.Log("Enemy health has been reset.");
     }
 
     public void Die()

@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 public class SpawnRestartPlayer : MonoBehaviour
 {
     public Transform spawnPoint; // Titik spawn pemain
-    public GameObject player;    // Referensi ke objek pemain
+    public GameObject player;
+    public GameObject weapon;// Referensi ke objek pemain
 
     void Start()
     {
@@ -37,6 +38,16 @@ public class SpawnRestartPlayer : MonoBehaviour
                 player.transform.position = spawnPoint.position;
             }
 
+            // Reset posisi dan rotasi kamera
+            Camera playerCamera = player.GetComponentInChildren<Camera>();
+
+            if (playerCamera != null)
+            {
+                // Reset posisi dan rotasi kamera agar sesuai dengan kondisi awal permainan
+                playerCamera.transform.localPosition = Vector3.zero;  // Reset posisi kamera
+                playerCamera.transform.localRotation = Quaternion.identity;  // Reset rotasi kamera
+            }
+
             // Debug posisi setelah respawn
             Debug.Log("Player position after respawn: " + player.transform.position);
         }
@@ -46,5 +57,20 @@ public class SpawnRestartPlayer : MonoBehaviour
         }
     }
 
-}
 
+
+
+    // Menambahkan metode untuk mendapatkan posisi spawn player
+    public Vector3 GetPlayerStartPosition()
+    {
+        if (spawnPoint != null)
+        {
+            return spawnPoint.position; // Mengembalikan posisi spawn point
+        }
+        else
+        {
+            Debug.LogError("Spawn point is not set!");
+            return Vector3.zero; // Mengembalikan posisi default jika spawn point tidak ditemukan
+        }
+    }
+}

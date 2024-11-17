@@ -4,22 +4,33 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
-    private bool isPaused = false;
+    private bool _isPaused = false;
+
+    public bool IsPaused => _isPaused;  // Properti untuk mengakses status pause
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Cek jika kita berada di dalam scene gameplay (misalnya bukan MainMenu)
+        if (SceneManager.GetActiveScene().name != "MainMenu")
         {
-            if (isPaused)
-                ResumeGame();
-            else
+            if (!_isPaused && Input.GetKeyDown(KeyCode.Escape))
+            {
                 PauseGame();
+            }
+        }
+        else
+        {
+            // Di MainMenu, hanya buka/tutup cursor saat menekan Escape
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ToggleCursorVisibility();
+            }
         }
     }
 
     public void ResumeGame()
     {
-        isPaused = false;
+        _isPaused = false;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f; // Resume game
         Cursor.lockState = CursorLockMode.Locked;
@@ -28,7 +39,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void PauseGame()
     {
-        isPaused = true;
+        _isPaused = true;
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f; // Pause game
         Cursor.lockState = CursorLockMode.None;
@@ -45,5 +56,19 @@ public class PauseMenuController : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("tesMainMenu");
+    }
+
+    private void ToggleCursorVisibility()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }

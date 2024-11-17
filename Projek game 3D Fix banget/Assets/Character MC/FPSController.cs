@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(AudioSource))] // Memastikan AudioSource ada
+[RequireComponent(typeof(AudioSource))]
 public class FPSPlayerController : MonoBehaviour
 {
     public Camera playerCamera;
@@ -17,7 +15,6 @@ public class FPSPlayerController : MonoBehaviour
     public float lookXLimit = 45f;
 
     public Image crosshair; // Referensi ke Crosshair UI
-
     public AudioClip footstepSound; // Suara langkah kaki
     public AudioClip shootSound; // Suara tembakan
     public AudioClip jumpSound; // Suara lompatan
@@ -31,23 +28,29 @@ public class FPSPlayerController : MonoBehaviour
     private bool isJumping = false;
     public EnergyWeaponWithSlider energyWeapon; // Drag and drop objek yang memiliki skrip EnergyWeaponWithSlider
 
-    CharacterController characterController;
+    private CharacterController characterController;
+    private PauseMenuController pauseMenuController;  // Referensi ke PauseMenuController
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        audioSource = GetComponent<AudioSource>(); // Mengambil referensi AudioSource
+        audioSource = GetComponent<AudioSource>();
+        pauseMenuController = FindObjectOfType<PauseMenuController>();  // Mencari PauseMenuController di scene
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        // Set ukuran awal crosshair
-        SetCrosshairSize(50f); // Ukuran default
     }
 
     void Update()
     {
-        HandleMovement();
-        HandleRotation();
+        if (pauseMenuController.IsPaused) return;  // Tidak jalankan logika jika game dijeda
+
+        if (canMove)
+        {
+            HandleMovement();
+            HandleRotation();
+        }
+
         HandleCrosshair();
     }
 
@@ -93,34 +96,18 @@ public class FPSPlayerController : MonoBehaviour
 
     void HandleRotation()
     {
-        if (canMove)
-        {
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
+        rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
     }
 
     void HandleCrosshair()
     {
-        // Menyembunyikan crosshair saat menembak
-        if (Input.GetButton("Fire1"))
+        // Menyembunyikan crosshair hanya saat energyWeapon tidak bisa menembak
+        if (energyWeapon != null && !energyWeapon.canShoot)
         {
-            // Cek apakah energyWeapon tidak null dan bisa menembak
-            if (energyWeapon != null && energyWeapon.canShoot)
-            {
-                // Kurangi energi saat menembak
-                energyWeapon.Shoot(); // Fungsi tembakan pada skrip EnergyWeaponWithSlider
-
-                SetCrosshairSize(30f); // Ubah ukuran saat menembak
-                PlayShootSound(); // Mainkan suara tembakan
-            }
-            else
-            {
-                // Jika tidak bisa menembak, set crosshair ke ukuran normal
-                SetCrosshairSize(50f); // Ukuran default
-            }
+            SetCrosshairSize(30f); // Ukuran lebih kecil jika tidak bisa menembak
         }
         else
         {
@@ -128,21 +115,10 @@ public class FPSPlayerController : MonoBehaviour
         }
     }
 
-
-
     void SetCrosshairSize(float size)
     {
         // Mengatur ukuran crosshair
         crosshair.rectTransform.sizeDelta = new Vector2(size, size);
-    }
-
-    void Die()
-    {
-        // Nonaktifkan pergerakan player jika mati
-        canMove = false;
-
-        // Hancurkan objek pemain setelah beberapa detik untuk memberi waktu pada animasi mati
-        Destroy(gameObject, 3f); // Hancurkan objek setelah 3 detik
     }
 
     void PlayFootstepSound()
@@ -153,13 +129,11 @@ public class FPSPlayerController : MonoBehaviour
         }
     }
 
-    void PlayShootSound()
-    {
-        audioSource.PlayOneShot(shootSound); // Mainkan suara tembakan
-    }
-
     void PlayJumpSound()
     {
-        audioSource.PlayOneShot(jumpSound); // Mainkan suara lompatan
+        if (!audioSource.isPlaying) // Cek apakah suara sedang dimainkan
+        {
+            audioSource.PlayOneShot(jumpSound); // Mainkan suara lompatan
+        }
     }
 }

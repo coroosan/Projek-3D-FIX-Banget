@@ -7,51 +7,102 @@ public class SpawnBullet : MonoBehaviour
     public GameObject bulletPrefab;   // Prefab peluru
     public Transform spawnPoint;      // Titik spawn peluru
     public float bulletSpeed = 20f;   // Kecepatan peluru
+    public float fireCooldown = 0.5f; // Cooldown antar tembakan
     public int bulletDamage = 10;     // Damage peluru
-    public EnergyWeaponWithSlider energyWeapon;   // Referensi ke EnergyWeaponWithSlider
-    private float fireCooldown = 0.5f;  // Waktu cooldown antara tembakan
-    private float lastFireTime = 0f;    // Waktu tembakan terakhir
+    public EnergyWeaponWithSlider energyWeapon; // Referensi ke sistem energi
+    public AudioClip shootSound; // Suara tembakan
+    private AudioSource audioSource; // AudioSource untuk memainkan suara
+    private float lastFireTime = 0f; // Waktu terakhir menembak
+
+    private bool isPaused = false; // Untuk mengecek apakah game sedang pause
 
     void Update()
     {
-        // Pastikan hanya menembak jika cooldown sudah habis dan energi cukup
-        if (Input.GetButtonDown("Fire1") && Time.time > lastFireTime + fireCooldown)
+        // Cek status pause dan nonaktifkan shooting saat game dipause
+        if (Time.timeScale == 0f)
         {
-            // Periksa apakah ada energi untuk menembak
+            isPaused = true;
+        }
+        else
+        {
+            isPaused = false;
+        }
+
+        if (!isPaused)
+        {
+            HandleShooting();  // Handle shooting hanya jika tidak dalam keadaan pause
+        }
+    }
+
+    void Awake()
+    {
+        // Mendapatkan referensi AudioSource pada GameObject yang sama
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void HandleShooting()
+    {
+        // Input menembak dan cek apakah cooldown sudah selesai
+        if (Input.GetButton("Fire1") && Time.time > lastFireTime + fireCooldown)
+        {
             if (energyWeapon != null && energyWeapon.canShoot)
             {
-                FireBullet();  // Panggil fungsi untuk menembak
-                lastFireTime = Time.time;  // Set waktu tembakan terakhir
+                FireBullet(); // Panggil fungsi tembak
+                lastFireTime = Time.time; // Atur waktu tembakan terakhir
             }
         }
     }
 
-    public void FireBullet()
+    void FireBullet()
     {
-        // Cek apakah energi cukup untuk menembak
         if (energyWeapon.currentEnergy >= energyWeapon.energyUsagePerShot)
         {
             // Buat peluru di titik spawn
             GameObject bullet = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
 
-            // Dapatkan Rigidbody dari peluru
+            // Tambahkan kecepatan ke peluru
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.useGravity = false; // Nonaktifkan gravitasi pada peluru
+                rb.velocity = spawnPoint.forward * bulletSpeed;
+            }
 
-            // Nonaktifkan gravitasi pada peluru
-            rb.useGravity = false;
+            // Set damage peluru jika ada skrip BulletController
+            BulletController bulletController = bullet.GetComponent<BulletController>();
+            if (bulletController != null)
+            {
+                bulletController.SetDamage(bulletDamage);
+            }
 
-            // Tambahkan gaya untuk menggerakkan peluru ke depan
-            rb.AddForce(spawnPoint.forward * bulletSpeed, ForceMode.Impulse);
+            // Kurangi energi setelah menembak
+            energyWeapon.Shoot();
+            PlayShootSound();
+        }
+    }
 
-            // Atur damage peluru
-            bullet.GetComponent<BulletController>().SetDamage(bulletDamage);
-
-            // Kurangi energi setelah tembakan
-            energyWeapon.Shoot();  // Hanya panggil sekali setelah tembakan berhasil
+    void PlayShootSound()
+    {
+        if (shootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSound); // Mainkan suara tembakan
         }
         else
         {
-            Debug.Log("Energi tidak cukup untuk menembak.");
+            Debug.LogWarning("AudioSource atau AudioClip belum diatur"); // Pesan peringatan jika AudioSource atau AudioClip belum diatur
         }
+    }
+
+    // Fungsi untuk Pause
+    public void PauseGame()
+    {
+        Time.timeScale = 0f; // Pause game
+        // Tidak perlu menonaktifkan shooting di sini karena sudah dikelola di Update
+    }
+
+    // Fungsi untuk Resume
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f; // Resume game
     }
 }
