@@ -5,20 +5,24 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class FPSPlayerController : MonoBehaviour
 {
+    // Tambahkan deklarasi isRunning di sini
+    private bool isRunning = false;
+
+    // Variabel lain...
     public Camera playerCamera;
     public float walkSpeed = 6f;
     public float runSpeed = 12f;
-    public float jumpHeight = 2f; // Tinggi lompatan
+    public float jumpHeight = 2f;
     public float gravity = 9.8f;
-
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
-
-    public Image crosshair; // Referensi ke Crosshair UI
-    public AudioClip footstepSound; // Suara langkah kaki
-    public AudioClip shootSound; // Suara tembakan
-    public AudioClip jumpSound; // Suara lompatan
-    private AudioSource audioSource; // AudioSource untuk memainkan suara
+    public Image crosshair;
+    public AudioClip footstepSound;
+    public AudioClip shootSound;
+    public AudioClip jumpSound;
+    private AudioSource audioSource;
+    private float footstepTimer = 0f;
+    public float footstepDelay = 0.5f;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -26,16 +30,16 @@ public class FPSPlayerController : MonoBehaviour
     public bool canMove = true;
     private float verticalVelocity = 0f;
     private bool isJumping = false;
-    public EnergyWeaponWithSlider energyWeapon; // Drag and drop objek yang memiliki skrip EnergyWeaponWithSlider
+    public EnergyWeaponWithSlider energyWeapon;
 
     private CharacterController characterController;
-    private PauseMenuController pauseMenuController;  // Referensi ke PauseMenuController
+    private PauseMenuController pauseMenuController;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
-        pauseMenuController = FindObjectOfType<PauseMenuController>();  // Mencari PauseMenuController di scene
+        pauseMenuController = FindObjectOfType<PauseMenuController>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -43,14 +47,13 @@ public class FPSPlayerController : MonoBehaviour
 
     void Update()
     {
-        if (pauseMenuController.IsPaused) return;  // Tidak jalankan logika jika game dijeda
-
         if (canMove)
         {
             HandleMovement();
             HandleRotation();
         }
 
+        footstepTimer -= Time.deltaTime;
         HandleCrosshair();
     }
 
@@ -59,7 +62,8 @@ public class FPSPlayerController : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift); // Deteksi tombol Shift untuk berlari
+        // Pindahkan deteksi isRunning ke dalam fungsi ini
+        isRunning = Input.GetKey(KeyCode.LeftShift); // Deteksi tombol Shift untuk berlari
 
         // Hitung kecepatan berjalan dan berlari
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
@@ -67,13 +71,12 @@ public class FPSPlayerController : MonoBehaviour
 
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        // Memainkan suara langkah kaki saat berjalan atau berlari
+        // Mainkan suara langkah kaki
         if (isRunning || Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
         {
             PlayFootstepSound();
         }
 
-        // Tambahkan gravitasi manual
         if (characterController.isGrounded)
         {
             verticalVelocity = -gravity * Time.deltaTime;
@@ -82,12 +85,12 @@ public class FPSPlayerController : MonoBehaviour
             {
                 isJumping = true;
                 verticalVelocity = Mathf.Sqrt(jumpHeight * 2f * gravity);
-                PlayJumpSound(); // Mainkan suara lompatan
+                PlayJumpSound();
             }
         }
         else
         {
-            verticalVelocity -= gravity * Time.deltaTime; // Terapkan gravitasi saat tidak di tanah
+            verticalVelocity -= gravity * Time.deltaTime;
         }
 
         moveDirection.y = verticalVelocity;
@@ -104,36 +107,32 @@ public class FPSPlayerController : MonoBehaviour
 
     void HandleCrosshair()
     {
-        // Menyembunyikan crosshair hanya saat energyWeapon tidak bisa menembak
         if (energyWeapon != null && !energyWeapon.canShoot)
         {
-            SetCrosshairSize(30f); // Ukuran lebih kecil jika tidak bisa menembak
+            SetCrosshairSize(30f);
         }
         else
         {
-            SetCrosshairSize(50f); // Ukuran default jika tidak menembak
+            SetCrosshairSize(50f);
         }
     }
 
     void SetCrosshairSize(float size)
     {
-        // Mengatur ukuran crosshair
         crosshair.rectTransform.sizeDelta = new Vector2(size, size);
     }
 
     void PlayFootstepSound()
     {
-        if (!audioSource.isPlaying) // Cek apakah suara sedang dimainkan
+        if (footstepTimer <= 0f && (isRunning || Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0))
         {
-            audioSource.PlayOneShot(footstepSound); // Mainkan suara langkah kaki
+            audioSource.PlayOneShot(footstepSound);
+            footstepTimer = footstepDelay;
         }
     }
 
     void PlayJumpSound()
     {
-        if (!audioSource.isPlaying) // Cek apakah suara sedang dimainkan
-        {
-            audioSource.PlayOneShot(jumpSound); // Mainkan suara lompatan
-        }
+        audioSource.PlayOneShot(jumpSound);
     }
 }
