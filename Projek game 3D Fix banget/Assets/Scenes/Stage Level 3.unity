@@ -27700,8 +27700,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 886554272}
-  walkSpeed: 12
-  runSpeed: 18
+  walkSpeed: 30
+  runSpeed: 40
   jumpHeight: 3
   gravity: 22
   lookSpeed: 2
@@ -46135,11 +46135,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyUsagePerShot: 10
-  maxEnergy: 100
+  maxEnergy: 400
   currentEnergy: 0
   canShoot: 1
   energyCooldownTime: 1
-  energyRegenRate: 30
+  energyRegenRate: 70
   energySlider: {fileID: 706966397}
 --- !u!136 &1748191454
 CapsuleCollider:
