@@ -28,6 +28,9 @@ public class SceneTransitionManager : MonoBehaviour
         {
             videoPlayer.loopPointReached += OnVideoEnd; // Event ketika video selesai
         }
+
+        // Memastikan kursor bisa digunakan setelah scene dimulai
+        ResetCursorState();
     }
 
     // Metode yang akan dipanggil dari script lain
@@ -59,6 +62,9 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void LoadNextStage()
     {
+        // Memastikan kursor bisa digunakan setelah scene berpindah
+        ResetCursorState();
+
         if (!string.IsNullOrEmpty(nextSceneName))
         {
             SceneManager.LoadScene(nextSceneName);
@@ -74,5 +80,13 @@ public class SceneTransitionManager : MonoBehaviour
     {
         // Mulai transisi setelah video selesai diputar
         StartCoroutine(TransitionToNextScene());
+    }
+
+    // Metode untuk memastikan kursor terlihat dan tidak terkunci
+    private void ResetCursorState()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 1f; // Pastikan game tidak dalam keadaan pause
     }
 }
